@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de ORKESTA-DESIGN.md (raíz del repo).
+ * Ese archivo manda sobre cualquier skill de diseño instalada.
+ * Ningún color se hardcodea en componentes: todo sale de aquí.
+ */
+
+@theme inline {
+  /* Tipografía — §3. Fuentes autoalojadas vía next/font/local (app/layout.tsx) */
+  --font-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+@theme {
+  /* Color — §2 */
+  --color-ork-bg: #050505;
+  --color-ork-surface-1: #121212;
+  --color-ork-surface-2: #1e1e1e;
+  --color-ork-border: #262626;
+  --color-ork-border-hi: #3a3a3a;
+
+  --color-ork-cyan: #00b4d8;
+  --color-ork-cyan-hi: #00e5ff;
+  --color-ork-violet: #8a2be2;
+  --color-ork-violet-deep: #7b2cbf;
+
+  --color-ork-text: #ffffff;
+  --color-ork-text-muted: #b0b0b0;
+  --color-ork-text-faint: #6e6e6e;
+
+  /* Escala tipográfica — §3 */
+  --text-display: clamp(2.75rem, 7vw, 5.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+  --text-h1: clamp(2.25rem, 5vw, 3.5rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: clamp(1.75rem, 3.5vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.3;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.65;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+  --text-mono-label: 0.75rem;
+  --text-mono-label--line-height: 1.2;
+  --text-mono-label--letter-spacing: 0.12em;
+
+  /* Movimiento — §6 */
+  --ease-ork: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  /* Degradado de marca — §2. Nunca como fondo de sección completa. */
+  --ork-gradient: linear-gradient(135deg, #00e5ff 0%, #00b4d8 40%, #7b2cbf 100%);
+  --ork-gradient-soft: linear-gradient(
+    135deg,
+    color-mix(in srgb, #00e5ff 40%, transparent) 0%,
+    color-mix(in srgb, #00b4d8 40%, transparent) 40%,
+    color-mix(in srgb, #7b2cbf 40%, transparent) 100%
+  );
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ork-bg);
+  color: var(--color-ork-text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-ork-text);
+}
+
+/* Foco visible en todo elemento interactivo — §9. Nunca outline:none sin sustituto. */
+:focus-visible {
+  outline: 2px solid var(--color-ork-cyan-hi);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-ork-cyan) 30%, transparent);
+  color: var(--color-ork-text);
+}
+
+/* Degradado aplicado a 1-3 palabras clave de un titular, nunca al titular entero — §3 */
+.text-gradient {
+  background: var(--ork-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tarjeta hoverable: borde con degradado de marca al 40% — §5 */
+.card-gradient-hover {
+  transition:
+    background-color 240ms var(--ease-ork),
+    border-color 240ms var(--ease-ork),
+    transform 240ms var(--ease-ork),
+    box-shadow 240ms var(--ease-ork);
+}
+.card-gradient-hover:hover {
+  background:
+    linear-gradient(var(--color-ork-surface-2), var(--color-ork-surface-2)) padding-box,
+    var(--ork-gradient-soft) border-box;
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+/* prefers-reduced-motion global — §6: todo pasa a fundido de 120ms */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+  }
+}
