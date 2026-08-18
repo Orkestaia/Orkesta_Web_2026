@@ -1,0 +1,52 @@
+---
+# 🔒 publicado: false hasta tener OK escrito de QuickRx.
+# Si no llega antes del lanzamiento, se publica con el nombre de fallback_anonimo.
+cliente: QuickRx Specialty Pharmacy
+sector: Salud · Farmacia especializada
+pais: Estados Unidos (Nueva York)
+anio: 2026
+periodo: Febrero – Julio 2026
+estado: produccion
+servicios: [atencion]
+destacado: true
+publicado: false
+fallback_anonimo: "Farmacia especializada · Nueva York, EEUU"
+orden: 3
+titular: Las llamadas que entraban fuera de horario se perdían. Hoy se capturan, se registran y se convierten en pacientes — con un retorno de 15,3× sobre la inversión.
+resumen: Agente de voz fuera de horario y asistente web con IA para una farmacia especializada, con captura de contacto con criterio.
+tarjeta:
+  - { valor: "259", etiqueta: "llamadas capturadas" }
+  - { valor: "5,02%", etiqueta: "de conversión" }
+  - { valor: "15,3×", etiqueta: "de retorno" }
+metricas:
+  - { valor: "259", etiqueta: "Llamadas fuera de horario capturadas" }
+  - { valor: "13", etiqueta: "Pacientes convertidos" }
+  - { valor: "5,02%", etiqueta: "Tasa de conversión" }
+  - { valor: "15,3×", etiqueta: "Retorno sobre la inversión" }
+stack: n8n · Retell AI · OpenAI · Microsoft 365 · widget de chat web
+---
+
+## El punto de partida
+
+Una farmacia especializada en medicamentos de alto coste y en ayudar a pacientes a acceder a
+programas de asistencia con el copago. Los pacientes llamaban fuera de horario precisamente
+cuando era urgente: se estaban quedando sin medicación, aparecía una barrera de copago o
+necesitaban coordinar una receta. Esas llamadas se perdían. En este sector, perder una llamada
+no es perder una consulta: es un retraso en el inicio del tratamiento, un problema de adherencia
+y un paciente recurrente que no vuelve.
+
+## Qué construimos
+
+- **Agente de voz para fuera de horario.** Atiende, registra la información del interlocutor y
+  deriva al equipo con el contexto ya recogido.
+- **Asistente web con IA.** Responde dudas frecuentes sobre asistencia con el copago,
+  medicamentos concretos, formularios y seguros, con respuestas orientadas a cumplimiento
+  normativo y conectado a una base de preguntas frecuentes aprobada por el cliente y a una tabla
+  de medicamentos con enlaces específicos.
+- **Captura de contacto con criterio.** El asistente no pide datos pronto: solo cuando el usuario
+  pide que le llamen, no ha podido contactar por teléfono, tiene una situación compleja o el
+  asistente no puede resolver la consulta con seguridad. Entonces extrae nombre y teléfono,
+  genera un resumen de la consulta, envía un aviso interno y guarda la transcripción completa
+  para el equipo.
+
+<Metricas titulo="Métricas — ventana febrero a julio de 2026" />

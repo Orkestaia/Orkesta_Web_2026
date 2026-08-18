@@ -1,0 +1,65 @@
+---
+# ⚠️ Separador "Diagnósticos y arquitecturas", etiqueta visible obligatoria.
+# Prohibido: presentarlo como entregado, en producción o en construcción.
+# Prohibido citar contrato, importes o nombres de personas del documento de kickoff
+# (verificado 2026-08-17: esos datos son ficticios, generados para probar una skill).
+cliente: Arima Experience
+sector: Turismo · Hostel y surf camp
+pais: Marruecos
+anio: 2026
+estado: disenado_no_implementado
+servicios: [atencion, captacion]
+orden: 12
+badge: Sistema diseñado · no implementado
+titular: Cuatro canales de entrada, tres idiomas y una bandeja que nadie puede vaciar. El sistema que diseñamos para ordenarla.
+resumen: Flujo de clasificación con IA para consultas de cuatro canales en tres idiomas, con reglas explícitas sobre cuándo no responder.
+tarjeta:
+  - { valor: "4", etiqueta: "canales unificados" }
+  - { valor: "3", etiqueta: "idiomas" }
+# Sin métricas de resultado, porque no las hay.
+metricas: []
+stack: n8n · Claude API · Airtable · Beds24 · WhatsApp Business · Telegram · Google Sheets
+---
+
+## El punto de partida
+
+Un hostel y surf camp en Marruecos que recibe consultas por WhatsApp, formulario web, Instagram
+y email, en español, inglés y francés. Todas caen en el mismo montón: quien pregunta el precio
+del pack, quien quiere reservar una semana concreta y quien organiza un retiro de yoga para
+catorce personas. Para responder a cualquiera con fechas hay que ir a mirar la disponibilidad a
+mano.
+
+## Qué diseñamos
+
+Un flujo que recoge las consultas de los cuatro canales, las normaliza a un formato único y las
+clasifica con IA: intención, prioridad, fechas, idioma y un nivel de confianza. A partir de ahí,
+el sistema decide qué hacer con cada una — y sobre todo, **qué no hacer**:
+
+- Si la consulta trae fechas, consulta la disponibilidad real antes de preparar el borrador de
+  respuesta.
+- Si es una pregunta frecuente, responde sola, en el idioma del que pregunta.
+- Si es un grupo de seis o más personas, **no responde**: levanta una alerta de prioridad alta
+  para que la atienda una persona. Un retiro de catorce plazas no se contesta con una plantilla.
+- Si la IA no clasifica con al menos un 75% de confianza, **no responde**: manda a revisión
+  manual.
+- Si el mismo contacto ya existe, actualiza su ficha en vez de duplicarla.
+
+## Decisiones de diseño que merece la pena contar
+
+El sistema **consulta** disponibilidad, nunca crea ni modifica reservas. Si el proveedor de
+disponibilidad se cae, el flujo no se bloquea: marca ese dato como pendiente de verificar y
+sigue. Y si falla el registro en la base de datos, el mensaje del cliente **no se pierde** —
+queda preservado en el log junto con el error.
+
+<Pendiente
+  titulo="Diagrama del flujo de decisión"
+  detalle="El diagrama del flujo está pendiente de producción gráfica."
+/>
+
+## Por qué está aquí
+
+El proyecto se diseñó, se construyó el flujo y se documentó un plan de pruebas de diez casos,
+pero el cliente no llegó a ejecutarlo y nunca se probó en condiciones reales. Se publica por lo
+mismo que Yoursups: el diagnóstico y la arquitectura son un entregable en sí mismos, y este caso
+enseña algo que ningún caso de éxito enseña tan bien — **dónde se decide que la automatización
+pare y entre una persona**.

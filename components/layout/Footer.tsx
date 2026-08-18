@@ -1,9 +1,7 @@
 import { Container } from "@/components/layout/Container";
+import { CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/site";
 
-/**
- * Footer mínimo de Fase P: logo, email de contacto, LinkedIn.
- * TODO(Aitor): falta la URL del perfil de LinkedIn — se añade en cuanto exista.
- */
+/** Footer mínimo de Fase P: logo, email de contacto, LinkedIn. */
 export function Footer() {
   return (
     <footer className="border-t border-ork-border py-12">
@@ -11,10 +9,18 @@ export function Footer() {
         <p className="font-display text-body font-bold text-ork-text">ORKESTA</p>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
           <a
-            href="mailto:aitor@orkestaia.com"
+            href={`mailto:${CONTACT_EMAIL}`}
             className="font-mono text-small text-ork-text-muted transition-colors duration-[160ms] hover:text-ork-cyan"
           >
-            aitor@orkestaia.com
+            {CONTACT_EMAIL}
+          </a>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-small text-ork-text-muted transition-colors duration-[160ms] hover:text-ork-cyan"
+          >
+            LinkedIn
           </a>
         </div>
         <p className="text-small text-ork-text-faint">

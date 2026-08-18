@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ViewTransitions } from "next-view-transitions";
 import "./globals.css";
 
 // Fuentes autoalojadas, subset latino — ORKESTA-DESIGN.md §3.
@@ -26,6 +27,7 @@ const jetbrainsMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://orkesta-web-2026.vercel.app"),
   title: "Orkesta — Automatización e IA para negocios",
   description: "Automatización e IA aplicadas a los procesos reales de tu negocio.",
   // noindex mientras el sitio esté incompleto (sin home). Se quita en F1.
@@ -34,11 +36,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="es"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
-    >
-      <body>{children}</body>
-    </html>
+    <ViewTransitions>
+      <html
+        lang="es"
+        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      >
+        <body>{children}</body>
+      </html>
+    </ViewTransitions>
   );
 }

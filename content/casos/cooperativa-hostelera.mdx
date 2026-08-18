@@ -1,0 +1,32 @@
+---
+cliente: Cooperativa de Hostelería
+sector: Hostelería · Distribución
+pais: España (Navarra)
+anio: 2026
+estado: produccion
+servicios: [operacion]
+orden: 9
+titular: Los comerciales fotografían el ticket desde el móvil. El resto lo hace el sistema.
+resumen: Aplicación web de control de gastos para comerciales y responsables de zona, con lógica específica de kilometraje y aprobación en un clic.
+tarjeta:
+  - { valor: "~14", etiqueta: "comerciales" }
+  - { valor: "Desde el móvil", etiqueta: "gasto registrado" }
+  - { valor: "Un clic", etiqueta: "aprobación" }
+metricas:
+  - { valor: "~14", etiqueta: "Comerciales cubiertos" }
+stack: Next.js · Vercel · Clerk · n8n · Google Sheets
+---
+
+## Qué construimos
+
+Una aplicación web de control de gastos para comerciales y responsables de zona. El comercial
+registra el gasto desde el móvil o el ordenador, adjunta el ticket, lo clasifica por tipo —
+comida, gasolina, kilometraje — y añade notas. Para kilometraje hay lógica específica: origen,
+destino, paradas intermedias, ida y vuelta, y cálculo automático del importe.
+
+Los responsables tienen un panel donde consultan los gastos por comercial, filtran por fecha,
+estado y tipo, revisan el ticket y aprueban o rechazan. Al resolver, se actualiza el estado y se
+dispara el aviso a administración.
+
+Entregado como MVP operativo, con arquitectura preparada para migrar a una base de datos más
+robusta.

@@ -126,6 +126,227 @@ h6 {
   transform: translateY(-2px);
 }
 
+/* ------------------------------------------------------------------ */
+/* El maletín del portfolio — CSS 3D + transiciones. Cero WebGL.       */
+/* Spec §8. Interacción completa sin JavaScript de cliente.            */
+/* ------------------------------------------------------------------ */
+
+.drawer-scene {
+  perspective: 1400px;
+}
+
+.drawer-plane {
+  transform-style: preserve-3d;
+}
+
+.folder {
+  position: relative;
+  display: block;
+  border-radius: 12px;
+  transition:
+    transform 240ms var(--ease-ork),
+    opacity 240ms var(--ease-ork),
+    box-shadow 240ms var(--ease-ork);
+  animation: folder-in 600ms var(--ease-ork) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+@keyframes folder-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Micro-oscilación desincronizada: el conjunto respira — spec §8.2 */
+.folder-float {
+  display: block;
+  animation: folder-float var(--float-duration, 5s) ease-in-out infinite alternate;
+  animation-delay: var(--float-delay, 0s);
+}
+
+@keyframes folder-float {
+  from {
+    transform: translateY(-2px);
+  }
+  to {
+    transform: translateY(2px);
+  }
+}
+
+/* Escritorio con puntero: el archivador en perspectiva */
+@media (hover: hover) and (min-width: 768px) {
+  .drawer-plane {
+    transform: rotateX(52deg) rotateZ(-4deg);
+  }
+
+  .folder {
+    /* Las carpetas asoman ~48px en pantalla (proyección de rotateX) — spec §8.2 */
+    margin-top: -72px;
+    transform: translateZ(var(--z, 0px));
+    animation-name: folder-in-3d;
+    box-shadow: 0 22px 28px -18px rgba(0, 0, 0, 0.85);
+  }
+
+  @keyframes folder-in-3d {
+    from {
+      opacity: 0;
+      transform: translateZ(var(--z, 0px)) translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateZ(var(--z, 0px)) translateY(0);
+    }
+  }
+
+  .folder-first {
+    margin-top: 0;
+  }
+
+  /* Hover / focus: la carpeta sube y se endereza parcialmente — spec §8.2 */
+  .folder:hover,
+  .folder:focus-visible {
+    transform: translateZ(calc(var(--z, 0px) + 60px)) translateY(-48px) rotateX(-18deg);
+    box-shadow:
+      0 48px 60px -24px rgba(0, 0, 0, 0.9),
+      0 0 40px -12px color-mix(in srgb, var(--color-ork-cyan) 35%, transparent);
+    z-index: 40;
+  }
+
+  /* Las vecinas retroceden y bajan de opacidad */
+  .drawer-plane:hover .folder:not(:hover),
+  .drawer-plane:focus-within .folder:not(:focus-visible) {
+    opacity: 0.6;
+    transform: translateZ(var(--z, 0px)) scale(0.96);
+  }
+}
+
+/* Móvil y táctil: pila vertical de tarjetas, sin perspectiva — spec §8.4 */
+@media not ((hover: hover) and (min-width: 768px)) {
+  .drawer-plane {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Portada de lanzamiento (Fase P.0) — brief §5b. Todo CSS/SVG.        */
+/* ------------------------------------------------------------------ */
+
+/* Reposo: flotación senoidal ±6px, periodo 6s + pulso de glow (8s).
+   Un solo elemento con glow en toda la pantalla. */
+.ork-hero-float {
+  height: 100%;
+  animation:
+    ork-float 6s ease-in-out infinite alternate,
+    ork-pulse 8s ease-in-out infinite;
+}
+
+@keyframes ork-float {
+  from {
+    transform: translateY(-6px);
+  }
+  to {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes ork-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.1));
+  }
+  50% {
+    filter: drop-shadow(0 0 32px rgba(0, 229, 255, 0.22));
+  }
+}
+
+/* Entrada: la silueta se dibuja (~1,2s) y después se rellena en fundido */
+.ork-hero-stroke {
+  fill: none;
+  stroke: url(#ork-grad-hero);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ork-draw 1.2s var(--ease-ork) forwards;
+}
+
+@keyframes ork-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ork-hero-fill {
+  fill: url(#ork-grad-hero);
+  opacity: 0;
+  animation: ork-fill-in 800ms ease-out 1s forwards;
+}
+
+@keyframes ork-fill-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* H1 por líneas: entra desde abajo, 60ms de escalonado, ≤400ms por línea.
+   El H1 es texto real y es el elemento LCP. */
+.h1-line {
+  display: block;
+  animation: h1-line-in 350ms var(--ease-ork) both;
+  animation-delay: var(--line-delay, 0ms);
+}
+
+@keyframes h1-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Capa de partículas del GooeyNav — decorativa, aria-hidden.
+   El filtro gooey solo existe en escritorio y sin reduced-motion. */
+.gooey-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .gooey-layer {
+    filter: blur(4px) contrast(18);
+  }
+}
+
+.gooey-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  animation: gooey-burst 600ms var(--ease-ork) forwards;
+}
+
+@keyframes gooey-burst {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.4);
+  }
+}
+
 /* prefers-reduced-motion global — §6: todo pasa a fundido de 120ms */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -137,5 +358,31 @@ h6 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 120ms !important;
+  }
+
+  /* El maletín se vuelve una lista plana: sin perspectiva ni relieve */
+  .drawer-scene {
+    perspective: none;
+  }
+  .drawer-plane {
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .folder {
+    margin-top: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .folder-float {
+    animation: none;
+  }
+
+  /* Sin transición compartida: las view transitions no animan */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

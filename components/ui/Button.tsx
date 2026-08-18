@@ -42,6 +42,14 @@ export function Button({
 }: ButtonProps) {
   const classes = cn(base, variants[variant], sizes[size], className);
   if (href) {
+    // Externo (Cal.com, LinkedIn): pestaña nueva — brief §5c
+    if (href.startsWith("http")) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" className={classes} {...aria}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={classes} {...aria}>
         {children}
