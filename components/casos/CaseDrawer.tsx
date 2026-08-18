@@ -45,7 +45,7 @@ function DrawerDivider({ label, count }: { label: string; count: number }) {
     <h2 className="mt-10 mb-4 first:mt-0">
       <span className="inline-block rounded-t-lg border border-b-0 border-ork-border-hi bg-ork-surface-2 px-5 py-3 font-mono text-mono-label tracking-[0.12em] text-ork-text uppercase">
         {label}
-        <span className="ml-3 text-ork-text-faint">{count}</span>
+        <span className="ml-3 text-ork-text-muted">{count}</span>
       </span>
       <span aria-hidden="true" className="block h-px w-full bg-ork-border-hi" />
     </h2>
@@ -71,7 +71,6 @@ function CaseFolder({
   return (
     <Link
       href={`/portfolio/${caso.slug}`}
-      aria-label={`Abrir caso: ${caso.cliente} — ${caso.sector}${caso.badge ? ` (${caso.badge})` : ""}`}
       className={cn("folder group", first && "folder-first")}
       style={
         {
@@ -90,10 +89,14 @@ function CaseFolder({
           className="block h-0.5 w-full"
           style={{ background: "var(--ork-gradient)" }}
         />
+        {/* El nombre accesible sale del propio contenido visible (WCAG 2.5.3,
+            "Label in Name"): un aria-label que no incluya el texto de la
+            carpeta rompe la correspondencia para quien usa control por voz. */}
+        <span className="sr-only">Abrir caso: </span>
         {/* Pestaña: el nombre del cliente es texto HTML, no una textura */}
         <span className="flex flex-wrap items-baseline gap-x-4 gap-y-1 px-6 pt-4">
           <span className="font-display text-body-lg font-bold text-ork-text">{caso.cliente}</span>
-          <span className="font-mono text-mono-label tracking-[0.12em] text-ork-text-faint uppercase">
+          <span className="font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase">
             {caso.sector}
           </span>
           {caso.badge ? (

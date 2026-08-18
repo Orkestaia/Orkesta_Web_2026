@@ -35,7 +35,7 @@ export function MetricBlock({
           </dd>
           <dt className="mt-2 text-small text-ork-text-muted">{m.etiqueta}</dt>
           {m.nota ? (
-            <p className="mt-2 font-mono text-mono-label tracking-[0.12em] text-ork-text-faint uppercase">
+            <p className="mt-2 font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase">
               {m.nota}
             </p>
           ) : null}

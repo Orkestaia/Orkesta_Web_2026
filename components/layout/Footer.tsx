@@ -23,7 +23,7 @@ export function Footer() {
             LinkedIn
           </a>
         </div>
-        <p className="text-small text-ork-text-faint">
+        <p className="text-small text-ork-text-muted">
           © {new Date().getFullYear()} Orkesta Automatización &amp; IA
         </p>
       </Container>

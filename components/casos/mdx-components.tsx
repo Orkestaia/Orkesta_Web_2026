@@ -44,7 +44,7 @@ export function buildMdxComponents(caso: Caso): MDXComponents {
     ),
     th: (props) => (
       <th
-        className="border-b border-ork-border-hi px-3 py-2 text-left font-mono text-mono-label tracking-[0.12em] text-ork-text-faint uppercase"
+        className="border-b border-ork-border-hi px-3 py-2 text-left font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase"
         {...props}
       />
     ),

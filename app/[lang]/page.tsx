@@ -98,7 +98,7 @@ export default function Portada() {
                 </Link>
               ))}
             </div>
-            <p className="mt-8 font-mono text-mono-label tracking-[0.12em] text-ork-text-faint uppercase">
+            <p className="mt-8 font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase">
               Sistemas en producción en España, Estados Unidos y Chile.
             </p>
           </Container>

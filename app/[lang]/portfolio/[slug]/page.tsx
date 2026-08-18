@@ -76,7 +76,7 @@ export default async function CasoPage({ params }: Props) {
         <nav aria-label="Miga de pan" className="mb-10">
           <Link
             href="/portfolio"
-            className="font-mono text-mono-label tracking-[0.12em] text-ork-text-faint uppercase transition-colors duration-[160ms] hover:text-ork-cyan"
+            className="font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase transition-colors duration-[160ms] hover:text-ork-cyan"
           >
             ← Portfolio
           </Link>
@@ -126,7 +126,7 @@ export default async function CasoPage({ params }: Props) {
         </div>
 
         {/* Stack: una sola línea discreta, al pie — spec §8.5 */}
-        <p className="mt-14 border-t border-ork-border pt-6 font-mono text-small text-ork-text-faint">
+        <p className="mt-14 border-t border-ork-border pt-6 font-mono text-small text-ork-text-muted">
           Stack: {caso.stack}
         </p>
 
