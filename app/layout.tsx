@@ -19,10 +19,13 @@ const inter = localFont({
   variable: "--font-inter",
 });
 
+// Solo aparece en eyebrows y etiquetas pequeñas: no participa en el primer
+// pintado, así que no compite por ancho de banda con Inter (elemento LCP).
 const jetbrainsMono = localFont({
   src: "./fonts/jetbrains-mono-latin-400-normal.woff2",
   weight: "400",
   display: "swap",
+  preload: false,
   variable: "--font-jetbrains-mono",
 });
 
