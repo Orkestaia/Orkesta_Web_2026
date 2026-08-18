@@ -24,21 +24,28 @@ export function MetricBlock({
       )}
     >
       {metrics.map((m) => (
-        <div key={m.etiqueta} className="rounded-xl border border-ork-border bg-ork-surface-1 p-6">
+        // Dentro de <dl>, un <div> de agrupación solo admite <dt> y <dd>:
+        // la nota va dentro del <dt>, y el orden visual lo pone flex.
+        <div
+          key={m.etiqueta}
+          className="flex flex-col rounded-xl border border-ork-border bg-ork-surface-1 p-6"
+        >
+          <dt className="order-2 mt-2 text-small text-ork-text-muted">
+            {m.etiqueta}
+            {m.nota ? (
+              <span className="mt-2 block font-mono text-mono-label tracking-[0.12em] uppercase">
+                {m.nota}
+              </span>
+            ) : null}
+          </dt>
           <dd
             className={cn(
-              "font-display font-bold text-ork-cyan-hi",
+              "order-1 font-display font-bold text-ork-cyan-hi",
               size === "lg" ? "text-h2" : "text-h3",
             )}
           >
             {m.valor}
           </dd>
-          <dt className="mt-2 text-small text-ork-text-muted">{m.etiqueta}</dt>
-          {m.nota ? (
-            <p className="mt-2 font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase">
-              {m.nota}
-            </p>
-          ) : null}
         </div>
       ))}
     </dl>
