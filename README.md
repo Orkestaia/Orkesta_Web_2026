@@ -51,7 +51,7 @@ Manual: `vercel deploy --prod --scope orkesta-automation`.
 | Fase             | Estado | Alcance                                                       |
 | ---------------- | ------ | ------------------------------------------------------------- |
 | F0 Fundaciones   | ✅     | Tokens, fuentes, layout, componentes base, CI con presupuesto |
-| Fase P Portfolio | 🔜     | Maletín CSS 3D + 12 casos MDX + gate Lighthouse ≥95 móvil     |
+| Fase P Portfolio | ✅     | Maletín CSS 3D + 12 casos MDX + portada P.0. Lighthouse móvil 100/100/100 |
 | F1 Home          | —      | 6 movimientos, sin 3D                                         |
 | F2 Contenido     | —      | Servicios, diagnóstico, método, legales                       |
 | F4 Orkestador 3D | —      | Única fase donde entra Three.js                               |
