@@ -21,7 +21,7 @@ export function Header() {
           <OrkestadorMark className="h-7 w-auto" />
           ORKESTA
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
           <GooeyNav />
           {/* Móvil: menú estándar */}
           <Link
@@ -30,12 +30,16 @@ export function Header() {
           >
             Portfolio
           </Link>
-          <Button
-            href={CAL_URL}
-            size="small"
-            aria-label="Agenda una llamada de 30 minutos (se abre en pestaña nueva)"
-          >
-            Agenda una llamada
+          {/* En 375px el texto completo parte el botón en dos líneas y lo
+              desborda del header: se acorta, y el nombre accesible se
+              completa con texto para lector de pantalla. */}
+          <Button href={CAL_URL} size="small" className="shrink-0 whitespace-nowrap">
+            <span aria-hidden="true">
+              Agenda<span className="hidden sm:inline">&nbsp;una llamada</span>
+            </span>
+            <span className="sr-only">
+              Agenda una llamada de 30 minutos (se abre en pestaña nueva)
+            </span>
           </Button>
         </div>
       </Container>
