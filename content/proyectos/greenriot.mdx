@@ -1,0 +1,37 @@
+---
+cliente: GreenRiot
+sector: App · Economía circular
+pais: Internacional
+anio: 2026
+grupo: cliente
+orden: 7
+logo: /portfolio/logos/greenriot.png
+titular: Mil usuarios en las primeras semanas, y un mapa que nunca aparece vacío.
+resumen: Plataforma para rescatar muebles abandonados, con un sistema que mantiene la oferta viva desde el primer día.
+stack: Make · n8n · Apify · OpenAI · Meta Ads
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: La gente ya publicaba muebles abandonados en Instagram. El problema es que a las horas la publicación desaparecía entre las stories.
+  - tipo: frase
+    texto: Si alguien abre la app y el mapa está vacío, no vuelve nunca. Ese era el riesgo real del lanzamiento.
+  - tipo: diagrama
+    titulo: Cómo se llena el mapa solo
+    nodos:
+      - { id: vigila, texto: Vigila las cuentas donde ya se publica, col: 0, fila: 1 }
+      - { id: detecta, texto: Detecta lo que es nuevo, col: 1, fila: 1 }
+      - { id: extrae, texto: Saca foto, descripción y ubicación, col: 2, fila: 1 }
+      - { id: publica, texto: Aparece en el mapa de la app, col: 3, fila: 1 }
+    aristas:
+      - { de: vigila, a: detecta }
+      - { de: detecta, a: extrae }
+      - { de: extrae, a: publica }
+    pie: El mapa tiene cosas aunque ningún usuario haya publicado hoy.
+  - tipo: cifra
+    valor: "+1.000"
+    etiqueta: personas registradas en la fase inicial
+  - tipo: frase
+    texto: El hallazgo no fue conseguir los primeros mil usuarios. Fue descubrir que el cuello de botella ya no era la gente, era la oferta.
+  - tipo: cierre
+    stack: Make · n8n · Apify · OpenAI · Meta Ads
+---

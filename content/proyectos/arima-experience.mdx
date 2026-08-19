@@ -1,0 +1,44 @@
+---
+cliente: Arima Experience
+sector: Turismo · Hostel y surf camp
+pais: Marruecos
+anio: 2026
+grupo: cliente
+orden: 13
+logo: /portfolio/logos/arima-experience.png
+titular: Cuatro canales, tres idiomas y una bandeja que nadie puede vaciar.
+resumen: Diseño de un sistema que ordena consultas de WhatsApp, web, Instagram y correo, y decide cuándo no debe contestar.
+stack: n8n · Claude API · Airtable · Beds24 · WhatsApp Business
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: En el mismo montón cae quien pregunta un precio, quien quiere reservar una semana y quien organiza un retiro para catorce personas.
+  - tipo: diagrama
+    titulo: Qué hace el sistema con cada consulta
+    nodos:
+      - { id: entra, texto: Entra por WhatsApp, web, Instagram o correo, col: 0, fila: 1 }
+      - { id: clasifica, texto: Se entiende qué pide y en qué idioma, col: 1, fila: 1 }
+      - { id: frecuente, texto: Si es una pregunta de siempre, contesta, col: 2, fila: 0 }
+      - { id: grupo, texto: Si es un grupo grande, no contesta, col: 2, fila: 2, humano: true }
+      - { id: duda, texto: Si no lo tiene claro, no contesta, col: 2, fila: 3, humano: true }
+      - { id: persona, texto: Lo atiende una persona, col: 3, fila: 2, humano: true }
+    aristas:
+      - { de: entra, a: clasifica }
+      - { de: clasifica, a: frecuente }
+      - { de: clasifica, a: grupo }
+      - { de: clasifica, a: duda }
+      - { de: grupo, a: persona }
+      - { de: duda, a: persona }
+    pie: En violeta, lo que hace una persona. Es la mitad del diseño.
+  - tipo: frase
+    texto: Un retiro de catorce plazas no se contesta con una plantilla. El sistema lo sabe y levanta la mano en vez de responder.
+  - tipo: lista
+    titulo: Decisiones de diseño que importan
+    puntos:
+      - { texto: Consulta la disponibilidad, nunca toca una reserva }
+      - { texto: Si el proveedor se cae, sigue y marca el dato por verificar }
+      - { texto: Si falla el registro, el mensaje del cliente no se pierde }
+      - { texto: Si el mismo contacto ya existe, actualiza en vez de duplicar }
+  - tipo: cierre
+    stack: n8n · Claude API · Airtable · Beds24 · WhatsApp Business
+---

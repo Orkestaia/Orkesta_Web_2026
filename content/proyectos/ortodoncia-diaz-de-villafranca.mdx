@@ -1,0 +1,42 @@
+---
+cliente: Ortodoncia Díaz de Villafranca
+sector: Clínica dental · Ortodoncia
+pais: España
+anio: 2026
+grupo: cliente
+orden: 10
+iniciales: ODV
+titular: La clínica deja de perder citas por teléfono y pacientes por olvido.
+resumen: Agente de voz que agenda, asistente de WhatsApp y avisos de revisión que traen de vuelta a quien ya confía en la clínica.
+stack: n8n · agente de voz · WhatsApp Business · agenda conectada
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: El teléfono suena mientras se está atendiendo en el gabinete. Y nadie puede dejar la boca de un paciente para cogerlo.
+  - tipo: diagrama
+    titulo: La llamada que nadie puede coger
+    nodos:
+      - { id: llama, texto: Un paciente llama, col: 0, fila: 1 }
+      - { id: ocupado, texto: En el gabinete no pueden cogerlo, col: 1, fila: 1, humano: true }
+      - { id: agente, texto: El agente atiende y resuelve la duda, col: 2, fila: 0 }
+      - { id: agenda, texto: Agenda la cita en el hueco real, col: 3, fila: 0 }
+      - { id: recuerda, texto: Recuerda la cita antes del día, col: 4, fila: 0 }
+    aristas:
+      - { de: llama, a: ocupado }
+      - { de: ocupado, a: agente }
+      - { de: agente, a: agenda }
+      - { de: agenda, a: recuerda }
+  - tipo: frase
+    texto: "Hay un segundo problema, menos visible y más caro: el paciente que termina el tratamiento y no vuelve porque nadie se acordó de avisarle."
+  - tipo: lista
+    titulo: Qué hace el sistema
+    puntos:
+      - { texto: Atiende las llamadas que no se pueden coger y agenda }
+      - { texto: Responde por WhatsApp las preguntas de siempre }
+      - { texto: Recuerda la cita para que no se quede vacía la silla }
+      - { texto: Avisa cuando toca revisión, meses después }
+  - tipo: frase
+    texto: Los dos primeros evitan perder lo que ya entra. El último genera citas de gente que, sin el aviso, no habría vuelto.
+  - tipo: cierre
+    stack: n8n · agente de voz · WhatsApp Business · agenda conectada
+---

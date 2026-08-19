@@ -1,0 +1,48 @@
+---
+cliente: Edelweiss Pastry Shop
+sector: Pastelería artesana
+pais: Estados Unidos
+anio: 2026
+grupo: cliente
+orden: 2
+logo: /portfolio/logos/edelweiss.png
+titular: Una pastelería de barrio que dejó de depender de quien pasara por la puerta.
+resumen: Tienda online conectada al mostrador, audiencia propia y clientes que vuelven solos.
+stack: Next.js · TypeScript · Vercel · Clover · Brevo · n8n · Meta Ads · GA4
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: Hacían el mejor croissant del barrio y no había forma de encargarlo. Cada venta dependía de que alguien entrara por la puerta.
+  - tipo: diagrama
+    titulo: Del móvil del cliente al mostrador
+    nodos:
+      - { id: pide, texto: El cliente pide y paga desde el móvil, col: 0, fila: 1 }
+      - { id: mostrador, texto: El pedido aparece en el mostrador, col: 1, fila: 0 }
+      - { id: stock, texto: El stock baja solo, col: 1, fila: 2 }
+      - { id: hornea, texto: El obrador lo prepara, col: 2, fila: 0, humano: true }
+      - { id: recoge, texto: El cliente lo recoge a su hora, col: 3, fila: 1 }
+    aristas:
+      - { de: pide, a: mostrador }
+      - { de: pide, a: stock }
+      - { de: mostrador, a: hornea }
+      - { de: hornea, a: recoge }
+    pie: Sin llamadas, sin apuntar nada dos veces, sin vender el último croissant dos veces.
+  - tipo: lista
+    titulo: Qué funciona solo desde entonces
+    puntos:
+      - { texto: El aviso a cocina en cuanto entra un pedido }
+      - { texto: La respuesta a cada reseña de Google, con su tono de siempre }
+      - { texto: El correo de bienvenida y el descuento de cumpleaños }
+      - { texto: Los horarios especiales, que se encienden y se apagan solos }
+  - tipo: cifra
+    valor: "14 veces"
+    etiqueta: más gente ve la pastelería cada día que en enero
+  - tipo: cifra
+    valor: "58"
+    etiqueta: pedidos anticipados por un canal que antes no existía
+  - tipo: cifra
+    valor: "233"
+    etiqueta: clientes en la lista de correo · más de la mitad abre cada envío
+  - tipo: cierre
+    stack: Next.js · TypeScript · Vercel · Clover · Brevo · n8n · Meta Ads · GA4
+---

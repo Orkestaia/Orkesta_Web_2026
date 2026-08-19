@@ -1,0 +1,59 @@
+---
+cliente: QuickRx Specialty Pharmacy
+sector: Farmacia especializada
+pais: Estados Unidos
+anio: 2026
+grupo: cliente
+orden: 3
+logo: /portfolio/logos/quickrx-specialty-pharmacy.png
+titular: Las llamadas de madrugada ya no se pierden.
+resumen: Un agente de voz y un asistente web que atienden fuera de horario en una farmacia especializada, con criterio sobre cuándo pasar a una persona.
+stack: n8n · Retell AI · OpenAI · Microsoft 365
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: "Los pacientes llaman fuera de horario justo cuando es urgente: se les acaba la medicación. Esas llamadas se perdían."
+  - tipo: diagrama
+    titulo: Qué pasa con una llamada a las tres de la mañana
+    nodos:
+      - { id: llama, texto: Alguien llama fuera de horario, col: 0, fila: 1 }
+      - { id: atiende, texto: El agente atiende y escucha, col: 1, fila: 1 }
+      - { id: registra, texto: Se registra quién llamó y para qué, col: 2, fila: 0 }
+      - { id: avisa, texto: El equipo recibe el aviso, col: 2, fila: 2 }
+      - {
+          id: devuelve,
+          texto: Una persona devuelve la llamada con el contexto delante,
+          col: 3,
+          fila: 1,
+          humano: true,
+        }
+    aristas:
+      - { de: llama, a: atiende }
+      - { de: atiende, a: registra }
+      - { de: atiende, a: avisa }
+      - { de: registra, a: devuelve }
+      - { de: avisa, a: devuelve }
+    pie: El sistema recoge. Quien decide sigue siendo el equipo.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/quickrx-specialty-pharmacy/flujo-agente-voz.png
+      alt: Flujo del agente de voz que recoge la llamada, la registra y avisa al equipo
+      ancho: 1707
+      alto: 581
+    pie: El recorrido real de una llamada, de principio a fin.
+  - tipo: lista
+    titulo: El criterio con el que está construido
+    puntos:
+      - { texto: No pide datos personales al principio de la conversación }
+      - { texto: Solo responde lo que la farmacia ha aprobado por escrito }
+      - { texto: Si no puede resolver con seguridad, pasa a una persona }
+      - { texto: Cada conversación queda registrada para el equipo }
+  - tipo: cifra
+    valor: "10-16 $"
+    etiqueta: al mes cuesta tener el teléfono atendido a todas horas
+    nota: coste de telefonía asumido por Orkesta, medido durante siete meses
+  - tipo: frase
+    texto: En sector regulado, lo que convence no es lo que el sistema sabe hacer. Es lo que tiene prohibido hacer.
+  - tipo: cierre
+    stack: n8n · Retell AI · OpenAI · Microsoft 365
+---

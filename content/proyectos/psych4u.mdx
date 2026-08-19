@@ -1,0 +1,42 @@
+---
+cliente: Psych4U
+sector: Salud mental
+pais: Estados Unidos
+anio: 2026
+grupo: cliente
+orden: 9
+logo: /portfolio/logos/psych4u.png
+titular: Un asistente que sabe cuándo no debe responder.
+resumen: Asistente web y agente de voz para una clínica de salud mental, definidos por sus límites antes que por sus capacidades.
+stack: n8n · Retell AI · Google Workspace
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: En salud mental, un asistente que intenta ser útil de más no es un fallo técnico. Es un riesgo para una persona.
+  - tipo: lista
+    titulo: Lo que el sistema tiene prohibido
+    puntos:
+      - { texto: Diagnosticar, en cualquier circunstancia }
+      - { texto: Dar consejo clínico, aunque se lo pidan }
+      - { texto: Continuar la conversación ante una señal de crisis }
+      - { texto: Responder algo que el equipo clínico no haya aprobado }
+  - tipo: diagrama
+    titulo: Ante una señal de crisis
+    nodos:
+      - { id: mensaje, texto: Llega un mensaje o una llamada, col: 0, fila: 1 }
+      - { id: detecta, texto: Se detecta una señal de crisis, col: 1, fila: 1 }
+      - { id: para, texto: El asistente deja de responder, col: 2, fila: 0 }
+      - { id: emergencia, texto: Deriva a los servicios de emergencia, col: 2, fila: 2 }
+      - { id: equipo, texto: El equipo clínico queda avisado, col: 3, fila: 1, humano: true }
+    aristas:
+      - { de: mensaje, a: detecta }
+      - { de: detecta, a: para }
+      - { de: detecta, a: emergencia }
+      - { de: para, a: equipo }
+      - { de: emergencia, a: equipo }
+    pie: La decisión de parar está escrita en el sistema, no en el criterio del momento.
+  - tipo: frase
+    texto: El equipo clínico actualiza en vivo lo que el asistente puede contestar. Nadie tiene que llamarnos para cambiar una respuesta.
+  - tipo: cierre
+    stack: n8n · Retell AI · Google Workspace
+---

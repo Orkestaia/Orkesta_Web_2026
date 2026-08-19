@@ -17,8 +17,11 @@ Prohibido en este repo hasta F4: `three`, `@react-three/fiber`, `@react-three/dr
 
 ## Rutas
 
-Las URLs públicas no llevan prefijo de idioma (`/portfolio`), pero internamente todo vive en
-`app/[lang]/` con `lang=es` fijo (rewrite en `next.config.ts`). Preparado para `/en` en v2.
+Las URLs públicas no llevan prefijo de idioma (`/proyectos/...`), pero internamente todo vive
+en `app/[lang]/` con `lang=es` fijo (rewrite en `next.config.ts`). Preparado para `/en` en v2.
+
+- `/` — portada con el carrusel de los 16 proyectos
+- `/proyectos/[slug]` — deck horizontal de diapositivas, a pantalla completa
 
 ## Ejecutar
 
@@ -48,10 +51,10 @@ Manual: `vercel deploy --prod --scope orkesta-automation`.
 
 ## Fases
 
-| Fase             | Estado | Alcance                                                       |
-| ---------------- | ------ | ------------------------------------------------------------- |
-| F0 Fundaciones   | ✅     | Tokens, fuentes, layout, componentes base, CI con presupuesto |
-| Fase P Portfolio | ✅     | Maletín CSS 3D + 12 casos MDX + portada P.0. Lighthouse móvil 100/100/100 |
-| F1 Home          | —      | 6 movimientos, sin 3D                                         |
-| F2 Contenido     | —      | Servicios, diagnóstico, método, legales                       |
-| F4 Orkestador 3D | —      | Única fase donde entra Three.js                               |
+| Fase             | Estado | Alcance                                                                   |
+| ---------------- | ------ | ------------------------------------------------------------------------- |
+| F0 Fundaciones   | ✅     | Tokens, fuentes, layout, componentes base, CI con presupuesto             |
+| Fase P Portfolio | ↻      | Rediseñada: carrusel con profundidad + deck de diapositivas, 16 proyectos |
+| F1 Home          | —      | 6 movimientos, sin 3D                                                     |
+| F2 Contenido     | —      | Servicios, diagnóstico, método, legales                                   |
+| F4 Orkestador 3D | —      | Única fase donde entra Three.js                                           |

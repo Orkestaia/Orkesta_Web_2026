@@ -1,13 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
-import { GooeyNav } from "@/components/layout/GooeyNav";
-import { OrkestadorMark } from "@/components/brand/OrkestadorMark";
 import { CAL_URL } from "@/lib/site";
 
 /**
- * Header de Fase P: orkestador + wordmark, GooeyNav (solo escritorio),
- * enlace estándar en móvil y CTA a Cal.com en pestaña nueva.
+ * Cabecera — brief §3: marca, "Proyectos" y el CTA a Cal.com.
+ *
+ * La marca es la figura del orkestador recortada del logotipo y servida a 2x:
+ * la silueta plana a 28 px no se leía, se perdía la cabeza. Provisional hasta
+ * que exista una versión horizontal del logotipo (§9).
  */
 export function Header() {
   return (
@@ -18,21 +20,24 @@ export function Header() {
           className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ork-text"
           aria-label="Orkesta — inicio"
         >
-          <OrkestadorMark className="h-7 w-auto" />
+          <Image
+            src="/marca-orkesta.png"
+            alt=""
+            width={166}
+            height={120}
+            priority
+            sizes="42px"
+            className="h-[30px] w-auto"
+          />
           ORKESTA
         </Link>
-        <div className="flex items-center gap-4 md:gap-6">
-          <GooeyNav />
-          {/* Móvil: menú estándar */}
+        <div className="flex items-center gap-5 sm:gap-7">
           <Link
-            href="/portfolio"
-            className="text-small font-medium text-ork-text-muted transition-colors duration-[160ms] hover:text-ork-text md:hidden"
+            href="/"
+            className="text-small font-medium text-ork-text-muted transition-colors duration-[160ms] hover:text-ork-text"
           >
-            Portfolio
+            Proyectos
           </Link>
-          {/* En 375px el texto completo parte el botón en dos líneas y lo
-              desborda del header: se acorta, y el nombre accesible se
-              completa con texto para lector de pantalla. */}
           <Button href={CAL_URL} size="small" className="shrink-0 whitespace-nowrap">
             <span aria-hidden="true">
               Agenda<span className="hidden sm:inline">&nbsp;una llamada</span>

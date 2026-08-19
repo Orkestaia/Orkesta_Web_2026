@@ -1,0 +1,40 @@
+---
+cliente: Yoursups
+sector: Ecommerce · Nutrición deportiva
+pais: Chile
+anio: 2026
+grupo: cliente
+orden: 12
+logo: /portfolio/logos/yoursups.svg
+titular: El sistema completo que diseñamos para un ecommerce que crecía más rápido que su operación.
+resumen: Siete procesos mapeados y una arquitectura que ordena stock, proveedores, facturación y atención.
+stack: n8n · aplicación web a medida · CRM propio
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: Vendían más cada mes, y cada mes costaba más trabajo vender. El crecimiento estaba apretando todos los frentes a la vez.
+  - tipo: diagrama
+    titulo: Los siete procesos que diseñamos
+    nodos:
+      - { id: stock, texto: Stock con aviso antes de la rotura, col: 0, fila: 0 }
+      - { id: pedidos, texto: Pedidos a proveedores con seguimiento, col: 0, fila: 2 }
+      - { id: facturas, texto: Facturas y contabilidad ordenadas, col: 1, fila: 0 }
+      - { id: email, texto: Atención por correo priorizada, col: 1, fila: 2 }
+      - { id: tareas, texto: Reuniones convertidas en tareas, col: 2, fila: 0 }
+      - { id: app, texto: Un panel que lo reúne todo, col: 2, fila: 2 }
+      - { id: crm, texto: Un CRM con la forma real del negocio, col: 3, fila: 1 }
+    aristas:
+      - { de: stock, a: facturas }
+      - { de: pedidos, a: facturas }
+      - { de: email, a: tareas }
+      - { de: facturas, a: app }
+      - { de: tareas, a: app }
+      - { de: app, a: crm }
+  - tipo: frase
+    texto: "El entregable de este proyecto es el diseño: saber qué se automatiza, qué no, y en qué orden conviene hacerlo."
+  - tipo: cifra
+    valor: "7"
+    etiqueta: procesos mapeados antes de escribir una línea de código
+  - tipo: cierre
+    stack: n8n · aplicación web a medida · CRM propio
+---

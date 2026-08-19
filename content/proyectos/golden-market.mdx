@@ -1,0 +1,58 @@
+---
+cliente: Golden Market
+sector: Ecommerce · Dispositivos reacondicionados
+pais: España
+anio: 2026
+grupo: cliente
+orden: 1
+logo: /portfolio/logos/golden-market.png
+titular: Una tienda que vende el triple sin contratar a nadie.
+resumen: Inventario, ventas, garantías y atención al cliente funcionando solos en una tienda de móviles reacondicionados.
+stack: Next.js · TypeScript · Vercel · n8n · Airtable · WooCommerce · Correos · WhatsApp · OpenAI
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: Cada pedido obligaba a alguien a decidir qué móvil concreto salía de la estantería, apuntarlo y rellenar el envío a mano.
+  - tipo: diagrama
+    titulo: Qué pasa cuando alguien compra
+    nodos:
+      - { id: compra, texto: Entra un pedido, col: 0, fila: 1 }
+      - { id: ficha, texto: Se crea la venta y la ficha del cliente, col: 1, fila: 0 }
+      - { id: unidad, texto: Se elige qué unidad enviar, col: 1, fila: 2 }
+      - { id: etiqueta, texto: Se emite la etiqueta de envío, col: 2, fila: 1 }
+      - {
+          id: revisa,
+          texto: Una persona revisa y entrega al mensajero,
+          col: 3,
+          fila: 1,
+          humano: true,
+        }
+    aristas:
+      - { de: compra, a: ficha }
+      - { de: compra, a: unidad }
+      - { de: ficha, a: etiqueta }
+      - { de: unidad, a: etiqueta }
+      - { de: etiqueta, a: revisa }
+    pie: Seis pasos. Una sola acción humana.
+  - tipo: lista
+    titulo: Qué dejó de hacerse a mano
+    puntos:
+      - { texto: Dar de alta cada móvil uno a uno desde la hoja del proveedor }
+      - { texto: Decidir y apuntar qué unidad concreta se envía en cada pedido }
+      - { texto: Rellenar el portal de envíos pedido por pedido }
+      - { texto: Contestar de madrugada dónde está mi paquete }
+  - tipo: cifra
+    valor: "19"
+    etiqueta: automatizaciones trabajando a la vez
+  - tipo: cifra
+    valor: "83 al día"
+    etiqueta: mensajes de clientes contestados sin que nadie los lea
+  - tipo: cifra
+    valor: "90 horas"
+    etiqueta: de trabajo repetitivo que desaparecen cada mes
+    nota: volúmenes reales del sistema; tiempos por tarea estimados
+  - tipo: frase
+    texto: Dos pedidos a la vez ya no generan dos etiquetas. El stock que ve el cliente es el que hay de verdad.
+  - tipo: cierre
+    stack: Next.js · TypeScript · Vercel · n8n · Airtable · WooCommerce · Correos · WhatsApp · OpenAI
+---

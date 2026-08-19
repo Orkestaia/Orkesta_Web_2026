@@ -127,114 +127,6 @@ h6 {
 }
 
 /* ------------------------------------------------------------------ */
-/* El maletín del portfolio — CSS 3D + transiciones. Cero WebGL.       */
-/* Spec §8. Interacción completa sin JavaScript de cliente.            */
-/* ------------------------------------------------------------------ */
-
-.drawer-scene {
-  perspective: 1400px;
-}
-
-.drawer-plane {
-  transform-style: preserve-3d;
-}
-
-.folder {
-  position: relative;
-  display: block;
-  border-radius: 12px;
-  transition:
-    transform 240ms var(--ease-ork),
-    opacity 240ms var(--ease-ork),
-    box-shadow 240ms var(--ease-ork);
-  animation: folder-in 600ms var(--ease-ork) both;
-  animation-delay: var(--enter-delay, 0ms);
-}
-
-@keyframes folder-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Micro-oscilación desincronizada: el conjunto respira — spec §8.2 */
-.folder-float {
-  display: block;
-  animation: folder-float var(--float-duration, 5s) ease-in-out infinite alternate;
-  animation-delay: var(--float-delay, 0s);
-}
-
-@keyframes folder-float {
-  from {
-    transform: translateY(-2px);
-  }
-  to {
-    transform: translateY(2px);
-  }
-}
-
-/* Escritorio con puntero: el archivador en perspectiva */
-@media (hover: hover) and (min-width: 768px) {
-  .drawer-plane {
-    transform: rotateX(52deg) rotateZ(-4deg);
-  }
-
-  .folder {
-    /* Las carpetas asoman ~48px en pantalla (proyección de rotateX) — spec §8.2 */
-    margin-top: -72px;
-    transform: translateZ(var(--z, 0px));
-    animation-name: folder-in-3d;
-    box-shadow: 0 22px 28px -18px rgba(0, 0, 0, 0.85);
-  }
-
-  @keyframes folder-in-3d {
-    from {
-      opacity: 0;
-      transform: translateZ(var(--z, 0px)) translateY(24px);
-    }
-    to {
-      opacity: 1;
-      transform: translateZ(var(--z, 0px)) translateY(0);
-    }
-  }
-
-  .folder-first {
-    margin-top: 0;
-  }
-
-  /* Hover / focus: la carpeta sube y se endereza parcialmente — spec §8.2 */
-  .folder:hover,
-  .folder:focus-visible {
-    transform: translateZ(calc(var(--z, 0px) + 60px)) translateY(-48px) rotateX(-18deg);
-    box-shadow:
-      0 48px 60px -24px rgba(0, 0, 0, 0.9),
-      0 0 40px -12px color-mix(in srgb, var(--color-ork-cyan) 35%, transparent);
-    z-index: 40;
-  }
-
-  /* Las vecinas retroceden y bajan de opacidad */
-  .drawer-plane:hover .folder:not(:hover),
-  .drawer-plane:focus-within .folder:not(:focus-visible) {
-    opacity: 0.6;
-    transform: translateZ(var(--z, 0px)) scale(0.96);
-  }
-}
-
-/* Móvil y táctil: pila vertical de tarjetas, sin perspectiva — spec §8.4 */
-@media not ((hover: hover) and (min-width: 768px)) {
-  .drawer-plane {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /* Portada de lanzamiento (Fase P.0) — brief §5b. Todo CSS/SVG.        */
 /* ------------------------------------------------------------------ */
 
@@ -347,6 +239,316 @@ h6 {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Carrusel de proyectos — DepthCarousel de React Bits, repintado a    */
+/* los tokens de ORKESTA-DESIGN.md. Cero paleta por defecto.           */
+/* ------------------------------------------------------------------ */
+
+.ork-borde-marca {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--ork-gradient);
+}
+
+.ork-carousel {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: var(--dc-perspective, 1400px);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+
+.ork-carousel:active {
+  cursor: grabbing;
+}
+
+.ork-carousel__rail {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* La pila crece hacia la derecha: se desplaza el raíl para que el
+     conjunto quede centrado en su caja. */
+  transform: translateX(-78px);
+}
+
+.ork-carousel__card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--color-ork-border);
+  background: var(--color-ork-surface-1);
+  /* La profundidad la vende la sombra, no el borde — brief §10 */
+  box-shadow:
+    0 40px 70px -30px rgba(0, 0, 0, 0.9),
+    0 10px 24px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  will-change: transform, opacity, filter;
+  transform: translate(-50%, -50%);
+}
+
+.ork-carousel__card:hover {
+  border-color: var(--color-ork-border-hi);
+}
+
+.ork-carousel__card:focus-visible {
+  outline: 2px solid var(--color-ork-cyan-hi);
+  outline-offset: 3px;
+}
+
+.ork-carousel__flecha {
+  position: absolute;
+  top: 50%;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  border: 1px solid var(--color-ork-border-hi);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-ork-surface-1) 80%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--color-ork-text);
+  cursor: pointer;
+  transition:
+    background-color 240ms var(--ease-ork),
+    border-color 240ms var(--ease-ork);
+}
+
+.ork-carousel__flecha:hover {
+  background: var(--color-ork-surface-2);
+  border-color: var(--color-ork-cyan);
+}
+
+.ork-carousel__flecha--prev {
+  left: 0;
+}
+
+.ork-carousel__flecha--next {
+  right: 0;
+}
+
+.ork-carousel__contador {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-label);
+  letter-spacing: 0.12em;
+  color: var(--color-ork-text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Mapa del sistema (FlowDiagram) — brief §5                           */
+/* Las líneas se dibujan, los nodos entran escalonados a 80 ms y un    */
+/* punto de luz recorre el circuito en bucle lento.                    */
+/* ------------------------------------------------------------------ */
+
+.ork-diagrama__linea {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: diagrama-trazo 700ms var(--ease-ork) forwards;
+  animation-delay: calc(var(--i) * 80ms);
+  pathlength: 1;
+}
+
+@keyframes diagrama-trazo {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ork-diagrama__nodo {
+  opacity: 0;
+  animation: diagrama-nodo 520ms var(--ease-ork) forwards;
+  animation-delay: calc(220ms + var(--i) * 80ms);
+}
+
+@keyframes diagrama-nodo {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Punto de luz: un trazo corto que recorre la línea en bucle */
+.ork-diagrama__luz {
+  stroke-dasharray: 0.06 0.94;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+  opacity: 0.9;
+  animation: diagrama-luz 5s linear infinite;
+  animation-delay: calc(1s + var(--i) * 260ms);
+  pathlength: 1;
+}
+
+@keyframes diagrama-luz {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  60%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Deck de diapositivas — brief §4                                     */
+/* Carril horizontal con scroll-snap: la inercia y el arrastre táctil  */
+/* los da el navegador. Cada diapositiva ocupa 100vw x 100dvh.         */
+/* ------------------------------------------------------------------ */
+
+.ork-deck {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.ork-deck__rail {
+  display: flex;
+  scroll-behavior: smooth;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.ork-deck__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.ork-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+}
+
+.ork-slide:focus-visible {
+  outline: 2px solid var(--color-ork-cyan-hi);
+  outline-offset: -6px;
+}
+
+.ork-slide__interior {
+  width: 100%;
+  max-width: 1200px;
+  padding: 96px 24px;
+}
+
+@media (min-width: 1024px) {
+  .ork-slide__interior {
+    padding: 112px 64px;
+  }
+}
+
+/* Zonas de click a los lados: 15% del ancho, altura completa.
+   Son ayuda para el ratón; el teclado usa las flechas, así que
+   quedan fuera del recorrido de Tab. */
+.ork-deck__zona {
+  position: absolute;
+  top: 0;
+  width: 15%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  z-index: 20;
+}
+
+.ork-deck__zona--prev {
+  left: 0;
+  cursor: w-resize;
+}
+
+.ork-deck__zona--next {
+  right: 0;
+  cursor: e-resize;
+}
+
+.ork-deck__etiqueta {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ork-cyan);
+  pointer-events: none;
+}
+
+.ork-deck__salir {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-ork-border-hi);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-ork-surface-1) 80%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--color-ork-text);
+  transition:
+    background-color 240ms var(--ease-ork),
+    border-color 240ms var(--ease-ork);
+}
+
+.ork-deck__salir:hover {
+  background: var(--color-ork-surface-2);
+  border-color: var(--color-ork-cyan);
+}
+
+.ork-deck__progreso {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  width: 100%;
+  height: 2px;
+  background: var(--color-ork-border);
+}
+
+.ork-deck__progreso span {
+  display: block;
+  height: 100%;
+  background: var(--ork-gradient);
+  transition: width 420ms var(--ease-ork);
+}
+
 /* prefers-reduced-motion global — §6: todo pasa a fundido de 120ms */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -360,23 +562,24 @@ h6 {
     transition-duration: 120ms !important;
   }
 
-  /* El maletín se vuelve una lista plana: sin perspectiva ni relieve */
-  .drawer-scene {
-    perspective: none;
+  /* El deck se recorre sin encaje ni desplazamiento animado */
+  .ork-deck__rail {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
   }
-  .drawer-plane {
-    transform: none !important;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .ork-deck__progreso span {
+    transition: none;
   }
-  .folder {
-    margin-top: 0 !important;
-    transform: none !important;
-    box-shadow: none !important;
-  }
-  .folder-float {
+
+  /* El diagrama se muestra completo, sin dibujarse ni pulsar */
+  .ork-diagrama__linea,
+  .ork-diagrama__nodo {
     animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  .ork-diagrama__luz {
+    display: none;
   }
 
   /* Sin transición compartida: las view transitions no animan */

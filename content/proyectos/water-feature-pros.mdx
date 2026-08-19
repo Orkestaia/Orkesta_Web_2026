@@ -1,0 +1,48 @@
+---
+cliente: Water Feature Pros
+sector: Paisajismo · Fuentes premium
+pais: Estados Unidos
+anio: 2026
+grupo: cliente
+orden: 4
+iniciales: WFP
+titular: Veinticinco años de oficio y ningún sistema para conseguir clientes nuevos.
+resumen: Captación B2B automatizada, gestión de la publicidad y un simulador donde el cliente ve la fuente en su propio jardín.
+stack: n8n · correo en frío con seguimiento · Meta Ads · Google Ads · Google Veo · Freepik AI
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: Tenían catálogo, oficio y miles de fotos de proyectos terminados. Lo que no tenían era una forma constante de encontrar al siguiente cliente.
+  - tipo: diagrama
+    titulo: Cómo encuentra a las empresas que le encajan
+    nodos:
+      - { id: busca, texto: Busca estudios y constructoras de la zona, col: 0, fila: 1 }
+      - { id: ordena, texto: Las ordena por lo bien que encajan, col: 1, fila: 1 }
+      - { id: escribe, texto: Escribe a cada una en su idioma de negocio, col: 2, fila: 0 }
+      - { id: insiste, texto: Vuelve a escribir a quien no contesta, col: 2, fila: 2 }
+      - { id: reunion, texto: Una persona atiende a quien responde, col: 3, fila: 1, humano: true }
+    aristas:
+      - { de: busca, a: ordena }
+      - { de: ordena, a: escribe }
+      - { de: escribe, a: insiste }
+      - { de: escribe, a: reunion }
+      - { de: insiste, a: reunion }
+    pie: Nadie tiene que acordarse de hacer el seguimiento.
+  - tipo: lista
+    titulo: Las cuatro piezas
+    puntos:
+      - { texto: Captación de empresas afines, ordenadas por afinidad }
+      - { texto: Publicidad gestionada con análisis automático de qué anuncio funciona }
+      - { texto: Un simulador donde el cliente ve la fuente sobre la foto de su jardín }
+      - { texto: Fotos de proyectos convertidas en vídeos y anuncios sin volver a fotografiar }
+  - tipo: frase
+    texto: La objeción de siempre en una compra así es no me imagino cómo quedaría. El simulador la responde en diez segundos.
+  - tipo: cifra
+    valor: "4.000 $"
+    etiqueta: de publicidad al mes gestionada y corregida sobre datos
+  - tipo: cifra
+    valor: "1 foto → 9 piezas"
+    etiqueta: cada proyecto terminado alimenta todos los canales
+  - tipo: cierre
+    stack: n8n · correo en frío con seguimiento · Meta Ads · Google Ads · Google Veo · Freepik AI
+---

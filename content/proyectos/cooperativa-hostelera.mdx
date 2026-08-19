@@ -1,0 +1,44 @@
+---
+cliente: Cooperativa de Hostelería
+sector: Hostelería · Distribución
+pais: España
+anio: 2026
+grupo: cliente
+orden: 8
+logo: /portfolio/logos/cooperativa-hostelera.png
+titular: Los comerciales fotografían el ticket. El resto lo hace el sistema.
+resumen: App de gastos para catorce comerciales, con aprobación en un clic y aviso automático a administración.
+stack: Next.js · Vercel · Clerk · n8n · Google Sheets
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: Catorce comerciales por carretera, catorce sobres de tickets arrugados y una persona en la oficina descifrándolos a final de mes.
+  - tipo: diagrama
+    titulo: Un gasto, de la gasolinera a administración
+    nodos:
+      - { id: foto, texto: El comercial fotografía el ticket, col: 0, fila: 1, humano: true }
+      - { id: clasifica, texto: Lo clasifica y añade una nota, col: 1, fila: 1 }
+      - { id: km, texto: El kilometraje se calcula solo, col: 1, fila: 2 }
+      - { id: panel, texto: Aparece en el panel del responsable, col: 2, fila: 1 }
+      - { id: aprueba, texto: El responsable aprueba o rechaza, col: 3, fila: 1, humano: true }
+      - { id: admin, texto: Administración recibe el aviso, col: 4, fila: 1 }
+    aristas:
+      - { de: foto, a: clasifica }
+      - { de: foto, a: km }
+      - { de: clasifica, a: panel }
+      - { de: km, a: panel }
+      - { de: panel, a: aprueba }
+      - { de: aprueba, a: admin }
+  - tipo: lista
+    titulo: Lo que resuelve
+    puntos:
+      - { texto: El gasto se registra donde ocurre, desde el móvil }
+      - { texto: El kilometraje calcula ida, vuelta y paradas intermedias }
+      - { texto: El responsable ve el ticket y decide en un clic }
+      - { texto: Administración se entera sin que nadie le escriba }
+  - tipo: cifra
+    valor: "14"
+    etiqueta: comerciales que ya no guardan tickets en la guantera
+  - tipo: cierre
+    stack: Next.js · Vercel · Clerk · n8n · Google Sheets
+---

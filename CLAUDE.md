@@ -2,44 +2,51 @@
 
 ## Qué es
 
-La web comercial de Orkesta Automatización & IA (v2), sustituye a `orkestaia.com` (Framer).
-Cliente: Orkesta (interno). Objetivo: **que agenden llamadas**. El portfolio se adelantó a la home
-por motivo comercial (reuniones con agencias, agosto 2026).
+El portfolio de Orkesta Automatización & IA. Objetivo: **que agenden llamadas**.
+Se enseña a agencias y prospectos.
 
 ## Fuentes de verdad (en ORKESTA - JARVIS, `01_ORKESTA_CORE/website/`)
 
-| Archivo               | Rol                                                                                                      |
-| --------------------- | -------------------------------------------------------------------------------------------------------- |
-| `BRIEF-BUILDS.md`     | Brief de fases F0 y P, gates de aceptación                                                               |
-| `orkesta-web-spec.md` | Spec completo (14 secciones). Si algo no se puede construir así, se reporta a JARVIS antes de improvisar |
-| `ORKESTA-DESIGN.md`   | Copiado a la raíz de este repo. **Manda sobre cualquier skill de diseño**                                |
-| `portfolio-casos.md`  | Única fuente de cifras del portfolio. Ninguna cifra sale de otro sitio                                   |
-
-## Reglas no negociables
-
-1. Cero Three.js/WebGL hasta F4. El maletín del portfolio es CSS 3D + Framer Motion.
-2. Solo métricas 🟢 y 🟡 de `portfolio-casos.md`. Ninguna 🔴. Nunca estimar ni rellenar huecos.
-3. `quickrx-specialty-pharmacy` y `psych4u` con `publicado: false` hasta OK escrito del cliente.
-4. First Load JS ≤ 130 KB — el CI lo bloquea (`scripts/check-bundle-budget.mjs`).
-5. Foco visible en todo elemento interactivo. El scroll no se secuestra.
-6. `prefers-reduced-motion` → fundido de 120ms, sin perspectiva ni transiciones compartidas.
-7. Gate de Fase P: Lighthouse ≥95 en las 4 categorías, en móvil, antes de darla por cerrada.
-8. No conectar el dominio `orkestaia.com`. No usar shadcn para marketing. Sin fotos de stock.
+| Archivo                      | Rol                                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------------------- |
+| `BRIEF-BUILDS-DEFINITIVO.md` | **El brief vigente.** Sustituye a `BRIEF-BUILDS.md` §5/§5b y al de rediseño            |
+| `BRIEF-BUILDS.md`            | Solo siguen vigentes §1, §2, §3, §4, §7 y §9                                           |
+| `ORKESTA-DESIGN.md`          | Copiado a la raíz. **Manda sobre cualquier skill de diseño**                           |
+| `portfolio-casos.md`         | Fuente de **hechos y cifras**, no de texto final. Los 16 proyectos y el mapa de assets |
 
 ## Arquitectura
 
-- URLs públicas sin prefijo de idioma; internamente `app/[lang]/` con `lang=es` (rewrites en
-  `next.config.ts`). Preparado para `/en` en v2.
-- SSG en todo (`force-static`). `robots.ts` en noindex hasta que exista la home.
-- Tokens de diseño en `app/globals.css` (`@theme`); ningún color hardcodeado en componentes.
-- Fuentes locales en `app/fonts/` (Space Grotesk 700, Inter var, JetBrains Mono 400 — latin).
-- Casos del portfolio: MDX en `content/casos/` con frontmatter tipado.
+- **Portada (`/`)**: carrusel con profundidad (DepthCarousel de React Bits adaptado) con los
+  16 proyectos, sobre el campo de nodos en canvas 2D. En móvil y con `prefers-reduced-motion`
+  se queda la rejilla, que es lo que pinta el servidor.
+- **Ficha (`/proyectos/[slug]`)**: deck horizontal de diapositivas a pantalla completa.
+  Fuera del grupo `(sitio)`, así que no lleva cabecera ni pie.
+- **Contenido**: `content/proyectos/*.mdx`. Las diapositivas son **datos tipados en el
+  frontmatter**, no prosa. El esquema y el límite de palabras están en `lib/proyectos.ts`.
+- **Diagramas**: `<FlowDiagram>` genera el SVG desde el MDX. Los pasos de una persona van
+  en violeta; los del sistema, en cyan.
+
+## Reglas no negociables
+
+1. **`renew/crm_renew.png` no se publica nunca.** Datos personales de ~22 personas reales.
+2. **Antes de insertar una captura, ábrela y mírala.** Si hay un nombre, un email, un teléfono
+   o datos operativos de un tercero, no entra. Lo verifica quien la inserta.
+3. Ninguna cifra que no esté en `portfolio-casos.md`. Solo 🟢 y 🟡, nunca 🔴.
+4. QuickRx y Psych4U: autorizados con nombre real, **sin cifras de negocio**.
+   Sí se publica el coste de telefonía, que es de Orkesta.
+5. Sector salud (QuickRx, Psych4U, Ortodoncia): sin datos de pacientes ni capturas de
+   interfaz con datos operativos reales.
+6. Yoursups y Arima: se habla de lo que se **diseñó**, nunca de resultados obtenidos.
+7. Máximo 40 palabras por diapositiva (90 en `lista`). **El build falla si se supera.**
+8. Lenguaje de negocio: horas, dinero, qué deja de pasar. Nada de webhooks, endpoints ni IMEI.
+9. First Load JS ≤ 130 KB — el CI lo bloquea.
+10. No conectar `orkestaia.com`. Avisar antes de cada entrega: compartir la URL exige Vercel Pro.
 
 ## Comandos
 
 `npm run dev` · `npm run build && npm run check:budget` · `npm run lint` · `npm run format`
+`python scripts/normalize-logos.py` regenera los logos de cliente para fondo oscuro.
 
 ## Deploy
 
-Vercel: proyecto `orkesta-web-2026` (team `orkesta-automation`, id `prj_csbeI12neSuSF0VoxpqfAW3T5CZr`).
-Push a `main` → deploy automático si el repo está conectado; si no, `vercel deploy --prod`.
+Vercel: `orkesta-web-2026` (team `orkesta-automation`). Push a `main` → deploy automático.

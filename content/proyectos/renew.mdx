@@ -1,0 +1,41 @@
+---
+cliente: Renew Project
+sector: Agencia · Influencer marketing
+pais: España
+anio: 2026
+grupo: cliente
+orden: 6
+logo: /portfolio/logos/renew.png
+titular: De setenta y cinco horas al mes a cinco.
+resumen: Una talent manager que contactaba 300 marcas a mano ahora solo marca casillas.
+stack: n8n · Google Sheets · Gmail · OpenAI
+slides:
+  - tipo: portada
+  - tipo: frase
+    texto: Paula escribía a trescientas marcas al mes, una a una. Entre quince y veinte minutos cada vez, buscando qué talento encajaba con cada marca.
+  - tipo: diagrama
+    titulo: Lo que ocurre al marcar una casilla
+    nodos:
+      - { id: marca, texto: Paula elige a qué marca escribir, col: 0, fila: 1, humano: true }
+      - { id: analiza, texto: El sistema lee la web de esa marca, col: 1, fila: 1 }
+      - { id: cruza, texto: Busca los talentos que encajan, col: 2, fila: 0 }
+      - { id: redacta, texto: Escribe el correo con el dossier, col: 2, fila: 2 }
+      - { id: sigue, texto: Recuerda el seguimiento cada día, col: 3, fila: 1 }
+    aristas:
+      - { de: marca, a: analiza }
+      - { de: analiza, a: cruza }
+      - { de: analiza, a: redacta }
+      - { de: cruza, a: redacta }
+      - { de: redacta, a: sigue }
+    pie: Paula sigue decidiendo a quién. Lo demás desapareció.
+  - tipo: cifra
+    valor: "75 h → 5 h"
+    etiqueta: al mes dedicadas a contactar marcas
+  - tipo: cifra
+    valor: "95 %"
+    etiqueta: del proceso ocurre sin que nadie lo toque
+  - tipo: frase
+    texto: "Esto es exactamente lo que hacemos: no automatizamos la decisión, automatizamos todo el trabajo que la rodea."
+  - tipo: cierre
+    stack: n8n · Google Sheets · Gmail · OpenAI
+---
