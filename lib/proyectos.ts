@@ -85,6 +85,8 @@ export const proyectoSchema = z.object({
   /** Meta description y texto de apoyo de la tarjeta. */
   resumen: z.string(),
   logo: z.string().optional(),
+  /** Línea de resultado que aparece al enfocar la tarjeta — brief §3 */
+  resultado: z.string().optional(),
   /** Sin logo: la tarjeta usa tratamiento tipográfico. */
   iniciales: z.string().optional(),
   stack: z.string(),

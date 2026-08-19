@@ -20,8 +20,8 @@ import { ProyectoCard, type TarjetaProyecto } from "./ProyectoCard";
  */
 
 const CFG = {
-  depth: 200,
-  spread: 64,
+  depth: 220,
+  spread: 90,
   tilt: 22,
   perspective: 1400,
   visibleCards: 4,
@@ -260,7 +260,7 @@ export function ProyectosCarousel({ proyectos }: { proyectos: TarjetaProyecto[] 
             ref={(el) => {
               cardRefs.current[i] = el;
             }}
-            className="ork-carousel__card"
+            className={"ork-carousel__card ork-tarjeta" + (i === activo ? " es-activa" : "")}
             aria-label={p.cliente + " — " + p.sector + ", " + p.pais}
             onFocus={() => enfocar(i)}
             onClick={(e) => {

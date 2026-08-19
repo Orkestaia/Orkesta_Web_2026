@@ -55,7 +55,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
               {proyecto.iniciales}
             </p>
           )}
-          <h1 className="mx-auto max-w-[18ch] font-display text-display font-bold text-balance text-ork-text">
+          <h1 className="mx-auto max-w-[17ch] font-display text-[clamp(2.5rem,5.6vw,4.75rem)] leading-[1.02] font-bold tracking-[-0.03em] text-balance text-ork-text">
             {proyecto.titular}
           </h1>
           <p className="mt-10 font-mono text-mono-label tracking-[0.12em] text-ork-cyan uppercase">
@@ -67,7 +67,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
     case "frase":
       return (
         <div className="text-center">
-          <p className="mx-auto max-w-[22ch] font-display text-display leading-[1.05] font-bold text-balance text-ork-text">
+          <p className="mx-auto max-w-[19ch] font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] font-bold tracking-[-0.03em] text-balance text-ork-text">
             {slide.texto}
           </p>
           {slide.pie ? (
@@ -81,7 +81,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
     case "cifra":
       return (
         <div className="text-center">
-          <p className="font-display text-[clamp(4.5rem,17vw,13rem)] leading-[0.9] font-bold tracking-[-0.04em] text-ork-cyan-hi">
+          <p className="font-display text-[clamp(5rem,19vw,15rem)] leading-[0.9] font-bold tracking-[-0.04em] text-ork-cyan-hi">
             {slide.valor}
           </p>
           <p className="mx-auto mt-10 max-w-[26ch] text-balance text-h3 text-ork-text">
@@ -98,7 +98,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
     case "lista":
       return (
         <div className="mx-auto w-full max-w-[52rem]">
-          <h2 className="font-display text-h2 font-bold text-balance text-ork-text">
+          <h2 className="font-display text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.08] font-bold tracking-[-0.02em] text-balance text-ork-text">
             {slide.titulo}
           </h2>
           <ul className="mt-12 space-y-6">
@@ -120,7 +120,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
     case "diagrama":
       return (
         <div className="mx-auto w-full max-w-[64rem]">
-          <h2 className="text-center font-display text-h3 font-bold text-ork-text">
+          <h2 className="text-center font-display text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.1] font-bold tracking-[-0.02em] text-balance text-ork-text">
             {slide.titulo}
           </h2>
           <div className="mt-10 overflow-x-auto">
@@ -139,7 +139,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
     case "imagen":
       return (
         <figure className="flex h-full w-full flex-col justify-center">
-          <div className="relative mx-auto w-full max-w-[72rem] overflow-hidden rounded-xl border border-ork-border">
+          <div className="ork-marco relative mx-auto w-full max-w-[72rem]">
             <Image
               src={slide.imagen.src}
               alt={slide.imagen.alt}
@@ -184,7 +184,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
     case "cierre":
       return (
         <div className="text-center">
-          <h2 className="mx-auto max-w-[20ch] font-display text-h1 font-bold text-balance text-ork-text">
+          <h2 className="mx-auto max-w-[18ch] font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.04] font-bold tracking-[-0.03em] text-balance text-ork-text">
             ¿Tienes un problema parecido?
           </h2>
           <p className="mx-auto mt-8 max-w-[52ch] text-body-lg text-ork-text-muted">

@@ -93,6 +93,7 @@ export function FlowDiagram({
               d={t.d}
               className="ork-diagrama__linea"
               stroke="var(--color-ork-border-hi)"
+              pathLength={1}
               style={{ ["--i" as string]: i }}
             />
           ))}
@@ -103,6 +104,7 @@ export function FlowDiagram({
               d={t.d}
               className="ork-diagrama__luz"
               stroke="var(--color-ork-cyan-hi)"
+              pathLength={1}
               style={{ ["--i" as string]: i }}
             />
           ))}
