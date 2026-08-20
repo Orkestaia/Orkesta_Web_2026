@@ -68,20 +68,29 @@ export function TarjetaAitor() {
   );
 }
 
-/** Respaldo: la tarjeta quieta, con el mismo aire y la misma sombra. */
+/**
+ * Respaldo sin física: la misma tarjeta completa, con su tramo de cinta y su
+ * enganche dibujados en CSS, sombra larga y una flotación suave. No es la
+ * foto suelta — tiene que leerse como la misma ficha, quieta.
+ */
 function TarjetaEstatica() {
   return (
-    <div className="ork-tarjeta-estatica">
-      <span aria-hidden="true" className="ork-tarjeta-estatica__cordon" />
-      <Image
-        src="/lanyard/tarjeta-frente.png"
-        alt=""
-        width={660}
-        height={940}
-        priority
-        sizes="(max-width: 1023px) 68vw, 320px"
-        className="ork-tarjeta-estatica__img"
-      />
+    <div className="ork-ficha" aria-hidden="true">
+      <span className="ork-ficha__cinta">
+        <span className="ork-ficha__cinta-texto">ORKESTA · ORKESTA</span>
+      </span>
+      <span className="ork-ficha__pinza" />
+      <span className="ork-ficha__cuerpo">
+        <Image
+          src="/lanyard/tarjeta-frente.png"
+          alt=""
+          width={660}
+          height={940}
+          priority
+          sizes="(max-width: 1023px) 74vw, 320px"
+          className="ork-ficha__img"
+        />
+      </span>
     </div>
   );
 }
