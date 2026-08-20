@@ -5,37 +5,65 @@ pais: Estados Unidos
 anio: 2026
 grupo: cliente
 orden: 4
-iniciales: WFP
+logo: /portfolio/logos/water-feature-pros.png
+resultado: "4.000 $/mes gestionados · simulador"
 titular: Veinticinco años de oficio y ningún sistema para conseguir clientes nuevos.
 resumen: Captación B2B automatizada, gestión de la publicidad y un simulador donde el cliente ve la fuente en su propio jardín.
-resultado: "4.000 $/mes gestionados · simulador"
 stack: n8n · correo en frío con seguimiento · Meta Ads · Google Ads · Google Veo · Freepik AI
 slides:
   - tipo: portada
   - tipo: frase
     texto: Tenían catálogo, oficio y miles de fotos de proyectos terminados. Lo que no tenían era una forma constante de encontrar al siguiente cliente.
+  - tipo: lista
+    titulo: Dos clientes que no se parecen en nada
+    puntos:
+      - { texto: "El propietario que quiere transformar su jardín" }
+      - { texto: "El arquitecto paisajista que proyecta para terceros" }
+      - { texto: "El contratista que necesita plazos y fichas técnicas" }
+      - { texto: "Todo en remoto, sin nadie que visite la obra" }
   - tipo: diagrama
     titulo: Cómo encuentra a las empresas que le encajan
     nodos:
-      - { id: busca, texto: Busca estudios y constructoras de la zona, col: 0, fila: 1 }
-      - { id: ordena, texto: Las ordena por lo bien que encajan, col: 1, fila: 1 }
-      - { id: escribe, texto: Escribe a cada una en su idioma de negocio, col: 2, fila: 0 }
-      - { id: insiste, texto: Vuelve a escribir a quien no contesta, col: 2, fila: 2 }
-      - { id: reunion, texto: Una persona atiende a quien responde, col: 3, fila: 1, humano: true }
+      - { id: busca, texto: "Busca estudios y constructoras de la zona", col: 0, fila: 1 }
+      - { id: puntua, texto: "Puntúa lo bien que encaja cada una", col: 1, fila: 1 }
+      - { id: filtra, texto: "¿Supera el umbral?", col: 2, fila: 1 }
+      - { id: descarta, texto: "Se descarta y no se le escribe", col: 3, fila: 2 }
+      - { id: escribe, texto: "Recibe un correo escrito para su perfil", col: 3, fila: 0 }
+      - { id: espera, texto: "¿Contesta?", col: 4, fila: 0 }
+      - { id: insiste, texto: "Le llega la siguiente del ciclo", col: 5, fila: 1 }
+      - { id: persona, texto: "Habla con una persona", col: 5, fila: 0, humano: true }
     aristas:
-      - { de: busca, a: ordena }
-      - { de: ordena, a: escribe }
-      - { de: escribe, a: insiste }
-      - { de: escribe, a: reunion }
-      - { de: insiste, a: reunion }
+      - { de: busca, a: puntua }
+      - { de: puntua, a: filtra }
+      - { de: filtra, a: descarta }
+      - { de: filtra, a: escribe }
+      - { de: escribe, a: espera }
+      - { de: espera, a: persona }
+      - { de: espera, a: insiste }
+      - { de: insiste, a: persona }
     pie: Nadie tiene que acordarse de hacer el seguimiento.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/water-feature-pros/panel-marketing.png
+      alt: Panel de marketing con los canales de analítica, campañas y correo en frío
+    pie: Todo lo que está en marcha, en una pantalla.
   - tipo: lista
     titulo: Las cuatro piezas
     puntos:
-      - { texto: Captación de empresas afines, ordenadas por afinidad }
-      - { texto: Publicidad gestionada con análisis automático de qué anuncio funciona }
-      - { texto: Un simulador donde el cliente ve la fuente sobre la foto de su jardín }
-      - { texto: Fotos de proyectos convertidas en vídeos y anuncios sin volver a fotografiar }
+      - { texto: "Captación de empresas afines, ordenadas por afinidad" }
+      - { texto: "Publicidad gestionada con análisis automático de qué anuncio funciona" }
+      - { texto: "Un simulador donde el cliente ve la fuente sobre la foto de su jardín" }
+      - { texto: "Fotos de proyectos convertidas en vídeos y anuncios sin volver a fotografiar" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/water-feature-pros/flujo-contenido.png
+      alt: Flujo que convierte un formulario en un artículo publicado con sus imágenes
+    pie: De un formulario a un artículo publicado, sin tocar nada.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/water-feature-pros/flujo-asistente.png
+      alt: Asistente que clasifica la intención de cada visita y deriva a captación o a consultas
+    pie: El asistente separa a quien pregunta de quien quiere comprar.
   - tipo: frase
     texto: La objeción de siempre en una compra así es no me imagino cómo quedaría. El simulador la responde en diez segundos.
   - tipo: cifra

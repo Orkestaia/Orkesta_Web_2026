@@ -24,9 +24,12 @@ const RUTAS = [
   { nombre: "proyectos", url: "/proyectos", espera: 1800 },
   { nombre: "deck-portada", url: "/proyectos/golden-market", espera: 1200 },
   { nombre: "deck-frase", url: "/proyectos/golden-market", slide: 1, espera: 1200 },
-  { nombre: "deck-diagrama", url: "/proyectos/golden-market", slide: 2, espera: 2200 },
-  { nombre: "deck-cifra", url: "/proyectos/golden-market", slide: 4, espera: 1200 },
-  { nombre: "deck-psych4u", url: "/proyectos/psych4u", slide: 3, espera: 2200 },
+  { nombre: "deck-diagrama", url: "/proyectos/golden-market", slide: 4, espera: 2400 },
+  { nombre: "deck-imagen", url: "/proyectos/golden-market", slide: 3, espera: 1600 },
+  { nombre: "deck-lista", url: "/proyectos/golden-market", slide: 6, espera: 1400 },
+  { nombre: "deck-cifra", url: "/proyectos/golden-market", slide: 8, espera: 1200 },
+  { nombre: "deck-cierre", url: "/proyectos/golden-market", slide: 12, espera: 1200 },
+  { nombre: "deck-psych4u", url: "/proyectos/psych4u", slide: 4, espera: 2400 },
 ];
 
 const VISTAS = [

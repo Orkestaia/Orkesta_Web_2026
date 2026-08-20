@@ -6,38 +6,63 @@ anio: 2026
 grupo: cliente
 orden: 11
 logo: /portfolio/logos/ariete-producciones.png
+resultado: "10-20 licitaciones/mes · 92-95% de acierto"
 titular: Veinte licitaciones al mes, leídas por el sistema.
 resumen: Un flujo que lee los pliegos de licitación pública, extrae lo que importa y rellena la ficha interna.
-resultado: "10-20 licitaciones/mes · 92-95% de acierto"
 stack: n8n · OpenAI · Mistral · Google Drive · WhatsApp Business
 slides:
   - tipo: portada
   - tipo: frase
-    texto: Se presentan a veinte concursos públicos al mes. Cada uno son decenas de páginas de las que hay que sacar a mano siempre los mismos ocho datos.
+    texto: Se presentan a veinte concursos públicos al mes. Cada uno son decenas de páginas de las que hay que sacar siempre los mismos datos.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/ariete-producciones/web.png
+      alt: Web de Ariete Producciones, productora de eventos en Santiago de Chile
+    pie: Diez años produciendo para marcas y para el sector público.
+  - tipo: lista
+    titulo: Lo que había que sacar de cada pliego
+    puntos:
+      - { texto: "Identificador, monto y quién convoca" }
+      - { texto: "Fechas de entrega y de apertura" }
+      - { texto: "La rúbrica de evaluación, con sus criterios y porcentajes" }
+      - { texto: "Garantías y antecedentes que hay que presentar" }
   - tipo: diagrama
     titulo: De un pliego de cincuenta páginas a una ficha
     nodos:
-      - { id: pliego, texto: Llega el pliego en PDF, col: 0, fila: 1 }
-      - { id: lee, texto: El sistema lo lee entero, col: 1, fila: 1 }
-      - { id: extrae, texto: Saca importe, plazos y garantías, col: 2, fila: 0 }
-      - { id: rubrica, texto: Saca cómo se puntúa el concurso, col: 2, fila: 2 }
-      - { id: ficha, texto: Rellena la ficha interna, col: 3, fila: 1 }
-      - { id: decide, texto: El equipo decide si se presenta, col: 4, fila: 1, humano: true }
+      - { id: pliego, texto: "Llega el pliego en PDF", col: 0, fila: 1 }
+      - { id: tipo, texto: "¿Tiene texto o es un escaneo?", col: 1, fila: 1 }
+      - { id: pausa, texto: "El escaneado queda en espera", col: 2, fila: 2 }
+      - { id: lee, texto: "El sistema lo lee entero", col: 2, fila: 0 }
+      - { id: extrae, texto: "Saca importe, plazos y garantías", col: 3, fila: 0 }
+      - { id: rubrica, texto: "Saca cómo se puntúa el concurso", col: 3, fila: 1 }
+      - { id: ficha, texto: "Rellena la ficha interna", col: 4, fila: 0 }
+      - { id: decide, texto: "El equipo decide si se presenta", col: 5, fila: 0, humano: true }
     aristas:
-      - { de: pliego, a: lee }
+      - { de: pliego, a: tipo }
+      - { de: tipo, a: pausa }
+      - { de: tipo, a: lee }
       - { de: lee, a: extrae }
       - { de: lee, a: rubrica }
       - { de: extrae, a: ficha }
       - { de: rubrica, a: ficha }
       - { de: ficha, a: decide }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/ariete-producciones/extraccion.png
+      alt: Flujo de extracción con sus bloques de clasificación, análisis y refinado
+    pie: La extracción va en cascada, del patrón más concreto al más genérico.
   - tipo: frase
-    texto: Si un dato no aparece en el pliego, la ficha lo deja vacío. Nunca se lo inventa. En un concurso público, un dato inventado cuesta la licitación.
+    texto: Si un dato no aparece en el pliego, la ficha lo deja vacío. Nunca se lo inventa.
+    pie: En un concurso público, un dato inventado cuesta la licitación.
   - tipo: cifra
     valor: "92-95 %"
     etiqueta: de los datos se extraen bien cuando el PDF tiene texto
+  - tipo: cifra
+    valor: "20 al mes"
+    etiqueta: pliegos que ya no hay que leer a mano
   - tipo: frase
-    texto: Tres de cada diez pliegos llegan escaneados como una foto. Ese camino está construido y en pausa hasta resolver la infraestructura.
-    pie: Se cuenta lo que funciona y lo que todavía no. Un cliente técnico confía más, no menos.
+    texto: Tres de cada diez llegan escaneados como una foto. Ese camino está construido y en pausa hasta resolver la infraestructura.
+    pie: Se cuenta lo que funciona y lo que todavía no.
   - tipo: cierre
     stack: n8n · OpenAI · Mistral · Google Drive · WhatsApp Business
 ---

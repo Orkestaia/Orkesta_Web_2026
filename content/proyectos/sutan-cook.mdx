@@ -6,21 +6,47 @@ anio: 2026
 grupo: cliente
 orden: 5
 logo: /portfolio/logos/sutan-cook.png
+resultado: "×3 reservas · 2.900 visitas de Google"
 titular: El triple de reservas desde que la web se parece al restaurante.
 resumen: Web a medida con reserva online, horarios que se gestionan solos y presencia real en buscadores y asistentes de IA.
-resultado: "×3 reservas · 2.900 visitas de Google"
 stack: Next.js · Vercel · GA4 · Schema.org · myrestoo
 slides:
   - tipo: portada
   - tipo: frase
-    texto: "Tenían una plantilla genérica: bonita por fuera, pero no contaba a qué sabe comer allí y no aparecía en las búsquedas."
+    texto: "Tenían una plantilla genérica: bonita por fuera, pero no contaba a qué sabe comer allí."
   - tipo: lista
-    titulo: Qué se construyó
+    titulo: Lo que no funcionaba
     puntos:
-      - { texto: Una web con dirección de arte propia, Fuego y Brasa }
-      - { texto: Reserva online sin salir de la página }
-      - { texto: Páginas dedicadas a cada menú y a la carta }
-      - { texto: Horarios especiales por fecha que se apagan solos }
+      - { texto: "La web no transmitía la experiencia del restaurante" }
+      - { texto: "Apenas aparecía cuando alguien buscaba dónde cenar" }
+      - { texto: "Reservar obligaba a salir de la página" }
+      - { texto: "Cada horario especial había que cambiarlo a mano" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/sutan-cook/web.png
+      alt: Portada de la web de Sutan Cook con la brasa de fondo y el botón de reservar
+    pie: La portada, con la dirección de arte Fuego y Brasa.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/sutan-cook/carta.png
+      alt: Página de carta y menús con sus precios
+    pie: La carta y los menús, cada uno con su página.
+  - tipo: diagrama
+    titulo: Qué pasa cuando alguien busca dónde cenar
+    nodos:
+      - { id: busca, texto: "Alguien busca en Google o pregunta a una IA", col: 0, fila: 1 }
+      - { id: datos, texto: "La web se presenta con datos estructurados", col: 1, fila: 1 }
+      - { id: aparece, texto: "Aparece en el buscador y en la conversación", col: 2, fila: 1 }
+      - { id: carta, texto: "Entra y ve la carta", col: 3, fila: 0 }
+      - { id: reserva, texto: "Reserva sin salir de la página", col: 4, fila: 1 }
+      - { id: mesa, texto: "La reserva llega al restaurante", col: 5, fila: 1, humano: true }
+    aristas:
+      - { de: busca, a: datos }
+      - { de: datos, a: aparece }
+      - { de: aparece, a: carta }
+      - { de: carta, a: reserva }
+      - { de: aparece, a: reserva }
+      - { de: reserva, a: mesa }
   - tipo: cifra
     valor: "× 3"
     etiqueta: reservas online desde el lanzamiento
@@ -30,6 +56,9 @@ slides:
   - tipo: frase
     texto: Aparece en ChatGPT y en Copilot cuando alguien busca dónde comer en Vitoria. Eso no fue suerte.
     pie: Marcar el negocio con datos estructurados es lo que lo hace visible para un asistente.
+  - tipo: cifra
+    valor: "7 ciudades"
+    etiqueta: de las que llega gente, de Vitoria a Madrid y Barcelona
   - tipo: cierre
     stack: Next.js · Vercel · GA4 · Schema.org · myrestoo
 ---

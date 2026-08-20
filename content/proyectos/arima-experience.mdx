@@ -6,40 +6,62 @@ anio: 2026
 grupo: cliente
 orden: 13
 logo: /portfolio/logos/arima-experience.png
+resultado: "4 canales · 3 idiomas"
 titular: Cuatro canales, tres idiomas y una bandeja que nadie puede vaciar.
 resumen: Diseño de un sistema que ordena consultas de WhatsApp, web, Instagram y correo, y decide cuándo no debe contestar.
-resultado: "4 canales · 3 idiomas"
 stack: n8n · Claude API · Airtable · Beds24 · WhatsApp Business
 slides:
   - tipo: portada
   - tipo: frase
     texto: En el mismo montón cae quien pregunta un precio, quien quiere reservar una semana y quien organiza un retiro para catorce personas.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/arima-experience/web.png
+      alt: Web de Arima Experience, surf camp en la costa atlántica de Marruecos
+    pie: El surf camp que recibe las consultas.
+  - tipo: lista
+    titulo: Por dónde entra la gente
+    puntos:
+      - { texto: "WhatsApp, que es el canal que más usan" }
+      - { texto: "El formulario de la web" }
+      - { texto: "Mensajes directos de Instagram" }
+      - { texto: "Correo, en español, inglés o francés" }
   - tipo: diagrama
     titulo: Qué hace el sistema con cada consulta
     nodos:
-      - { id: entra, texto: Entra por WhatsApp, web, Instagram o correo, col: 0, fila: 1 }
-      - { id: clasifica, texto: Se entiende qué pide y en qué idioma, col: 1, fila: 1 }
-      - { id: frecuente, texto: Si es una pregunta de siempre, contesta, col: 2, fila: 0 }
-      - { id: grupo, texto: Si es un grupo grande, no contesta, col: 2, fila: 2, humano: true }
-      - { id: duda, texto: Si no lo tiene claro, no contesta, col: 2, fila: 3, humano: true }
-      - { id: persona, texto: Lo atiende una persona, col: 3, fila: 2, humano: true }
+      - { id: entra, texto: "Entra por uno de los cuatro canales", col: 0, fila: 1 }
+      - { id: normaliza, texto: "Se normaliza a un formato único", col: 1, fila: 1 }
+      - { id: clasifica, texto: "Se entiende qué pide y en qué idioma", col: 2, fila: 1 }
+      - { id: seguro, texto: "¿Lo tiene claro?", col: 3, fila: 1 }
+      - { id: duda, texto: "Si no llega al 75%, no responde", col: 4, fila: 3, humano: true }
+      - { id: grupo, texto: "¿Es un grupo de seis o más?", col: 4, fila: 0 }
+      - { id: alerta, texto: "Levanta alerta y no responde", col: 5, fila: 2, humano: true }
+      - { id: fechas, texto: "Si trae fechas, consulta disponibilidad", col: 5, fila: 0 }
+      - { id: borrador, texto: "Prepara el borrador de respuesta", col: 6, fila: 0 }
+      - { id: persona, texto: "Lo atiende una persona", col: 6, fila: 2, humano: true }
     aristas:
-      - { de: entra, a: clasifica }
-      - { de: clasifica, a: frecuente }
-      - { de: clasifica, a: grupo }
-      - { de: clasifica, a: duda }
-      - { de: grupo, a: persona }
+      - { de: entra, a: normaliza }
+      - { de: normaliza, a: clasifica }
+      - { de: clasifica, a: seguro }
+      - { de: seguro, a: duda }
+      - { de: seguro, a: grupo }
+      - { de: grupo, a: alerta }
+      - { de: grupo, a: fechas }
+      - { de: fechas, a: borrador }
+      - { de: alerta, a: persona }
       - { de: duda, a: persona }
-    pie: En violeta, lo que hace una persona. Es la mitad del diseño.
+    pie: En violeta, donde el sistema se detiene y entra una persona.
   - tipo: frase
     texto: Un retiro de catorce plazas no se contesta con una plantilla. El sistema lo sabe y levanta la mano en vez de responder.
   - tipo: lista
     titulo: Decisiones de diseño que importan
     puntos:
-      - { texto: Consulta la disponibilidad, nunca toca una reserva }
-      - { texto: Si el proveedor se cae, sigue y marca el dato por verificar }
-      - { texto: Si falla el registro, el mensaje del cliente no se pierde }
-      - { texto: Si el mismo contacto ya existe, actualiza en vez de duplicar }
+      - { texto: "Consulta la disponibilidad, nunca toca una reserva" }
+      - { texto: "Si el proveedor se cae, sigue y marca el dato por verificar" }
+      - { texto: "Si falla el registro, el mensaje del cliente no se pierde" }
+      - { texto: "Si el contacto ya existe, actualiza en vez de duplicar" }
+  - tipo: frase
+    texto: Lo interesante de este diseño no es lo que el sistema contesta. Es dónde se decide que deje de contestar.
   - tipo: cierre
     stack: n8n · Claude API · Airtable · Beds24 · WhatsApp Business
 ---

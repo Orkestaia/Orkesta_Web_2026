@@ -6,35 +6,58 @@ anio: 2026
 grupo: propio
 orden: 1
 iniciales: MC
+resultado: "5 agentes conectados"
 titular: El sistema con el que Orkesta se dirige a sí misma.
 resumen: Cinco agentes con funciones distintas que se reparten el trabajo de la consultora, en uso diario.
-resultado: "5 agentes conectados"
 stack: Next.js · Supabase · Clerk · Vercel · Telegram
 slides:
   - tipo: portada
   - tipo: frase
     texto: La pregunta que hace todo cliente es si esto de los agentes funciona de verdad o es una demo bonita.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/mission-control/jarvis.png
+      alt: Interfaz del agente coordinador, en estado de reposo
+    pie: "El coordinador: por aquí entra todo."
   - tipo: diagrama
-    titulo: Cinco agentes que se reparten el trabajo
+    titulo: Una petición desde el móvil, resuelta sola
     nodos:
-      - { id: aitor, texto: Aitor pide algo desde el móvil, col: 0, fila: 1, humano: true }
-      - { id: mensajero, texto: El mensajero recoge la petición, col: 1, fila: 1 }
-      - { id: coordina, texto: El coordinador decide quién lo resuelve, col: 2, fila: 1 }
-      - { id: negocio, texto: Vigila el negocio y avisa de riesgos, col: 3, fila: 0 }
-      - { id: contenido, texto: Produce contenido, col: 3, fila: 1 }
-      - { id: busca, texto: Busca información en la web, col: 3, fila: 2 }
+      - { id: aitor, texto: "Aitor pide algo desde el teléfono", col: 0, fila: 1, humano: true }
+      - { id: mensajero, texto: "El mensajero recoge la petición", col: 1, fila: 1 }
+      - { id: coordina, texto: "El coordinador decide de quién es", col: 2, fila: 1 }
+      - { id: negocio, texto: "Vigila el negocio y avisa de riesgos", col: 3, fila: 0 }
+      - { id: contenido, texto: "Produce contenido", col: 3, fila: 1 }
+      - { id: busca, texto: "Busca y contrasta en la web", col: 3, fila: 2 }
+      - { id: vuelve, texto: "La respuesta vuelve al mismo chat", col: 4, fila: 1 }
     aristas:
       - { de: aitor, a: mensajero }
       - { de: mensajero, a: coordina }
       - { de: coordina, a: negocio }
       - { de: coordina, a: contenido }
       - { de: coordina, a: busca }
+      - { de: negocio, a: vuelve }
+      - { de: contenido, a: vuelve }
+      - { de: busca, a: vuelve }
     pie: Se pide desde el teléfono. El sistema decide solo a quién le toca.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/mission-control/laboratorio.png
+      alt: Sala del agente de investigación, con sus salas en el lateral
+    pie: Cada agente tiene su sala y su función.
+  - tipo: lista
+    titulo: Qué hace cada uno
+    puntos:
+      - { texto: "Coordina y reparte lo que llega" }
+      - { texto: "Vigila el negocio y avisa cuando un cliente pesa demasiado" }
+      - { texto: "Produce contenido y lo deja listo para revisar" }
+      - { texto: "Busca en la web con fuentes verificables" }
   - tipo: frase
     texto: Uno avisa cuando un solo cliente concentra demasiada facturación. Es el aviso que un autónomo nunca se da a sí mismo a tiempo.
   - tipo: cifra
     valor: "5"
     etiqueta: agentes con funciones distintas, conectados entre sí
+  - tipo: frase
+    texto: Un cliente que ve que Orkesta usa a diario lo que vende deja de necesitar que se lo expliquen.
   - tipo: cierre
     stack: Next.js · Supabase · Clerk · Vercel · Telegram
 ---

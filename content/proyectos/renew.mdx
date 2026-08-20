@@ -6,29 +6,57 @@ anio: 2026
 grupo: cliente
 orden: 6
 logo: /portfolio/logos/renew.png
+resultado: "De 75 h/mes a 5 · 95% automatizado"
 titular: De setenta y cinco horas al mes a cinco.
 resumen: Una talent manager que contactaba 300 marcas a mano ahora solo marca casillas.
-resultado: "De 75 h/mes a 5 · 95% automatizado"
 stack: n8n · Google Sheets · Gmail · OpenAI
 slides:
   - tipo: portada
   - tipo: frase
-    texto: Paula escribía a trescientas marcas al mes, una a una. Entre quince y veinte minutos cada vez, buscando qué talento encajaba con cada marca.
+    texto: Paula escribía a trescientas marcas al mes, una a una, buscando cada vez qué talento encajaba con cada marca.
+  - tipo: lista
+    titulo: Los cuatro pasos que repetía trescientas veces
+    puntos:
+      - { texto: "Mirarse la web de la marca para entender qué vende" }
+      - { texto: "Repasar los 95 talentos y elegir los que encajan" }
+      - { texto: "Escribir el correo y adjuntar el dossier" }
+      - { texto: "Apuntar a quién escribió y cuándo toca insistir" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/renew/web.png
+      alt: Web de Renew Project, la agencia de influencer marketing
+    pie: "La agencia: representa a 95 creadores."
   - tipo: diagrama
     titulo: Lo que ocurre al marcar una casilla
     nodos:
-      - { id: marca, texto: Paula elige a qué marca escribir, col: 0, fila: 1, humano: true }
-      - { id: analiza, texto: El sistema lee la web de esa marca, col: 1, fila: 1 }
-      - { id: cruza, texto: Busca los talentos que encajan, col: 2, fila: 0 }
-      - { id: redacta, texto: Escribe el correo con el dossier, col: 2, fila: 2 }
-      - { id: sigue, texto: Recuerda el seguimiento cada día, col: 3, fila: 1 }
+      - { id: marca, texto: "Paula elige a qué marca escribir", col: 0, fila: 1, humano: true }
+      - { id: analiza, texto: "El sistema lee la web de esa marca", col: 1, fila: 1 }
+      - { id: nicho, texto: "Deduce su nicho y su público", col: 2, fila: 1 }
+      - { id: cruza, texto: "Cruza los 95 talentos y elige los afines", col: 3, fila: 0 }
+      - { id: redacta, texto: "Escribe el correo con el dossier", col: 4, fila: 1 }
+      - { id: envia, texto: "Sale desde su propio Gmail", col: 5, fila: 1 }
+      - { id: sigue, texto: "Le recuerda el seguimiento cada día", col: 6, fila: 1 }
     aristas:
       - { de: marca, a: analiza }
-      - { de: analiza, a: cruza }
-      - { de: analiza, a: redacta }
+      - { de: analiza, a: nicho }
+      - { de: nicho, a: cruza }
       - { de: cruza, a: redacta }
-      - { de: redacta, a: sigue }
+      - { de: nicho, a: redacta }
+      - { de: redacta, a: envia }
+      - { de: envia, a: sigue }
     pie: Paula sigue decidiendo a quién. Lo demás desapareció.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/renew/flujo-seguimiento.png
+      alt: Flujo que envía el primer correo y encadena los seguimientos hasta que hay respuesta
+    pie: "El seguimiento: nadie tiene que acordarse."
+  - tipo: lista
+    titulo: Qué hace el sistema solo
+    puntos:
+      - { texto: "Entiende de qué va una marca leyendo su web" }
+      - { texto: "Propone los cinco a siete talentos más afines" }
+      - { texto: "Escribe cada correo para esa marca, no una plantilla" }
+      - { texto: "Encadena los seguimientos hasta que hay respuesta" }
   - tipo: cifra
     valor: "75 h → 5 h"
     etiqueta: al mes dedicadas a contactar marcas

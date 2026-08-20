@@ -6,37 +6,57 @@ anio: 2026
 grupo: cliente
 orden: 8
 logo: /portfolio/logos/cooperativa-hostelera.png
+resultado: "14 comerciales · aprobación en un clic"
 titular: Los comerciales fotografían el ticket. El resto lo hace el sistema.
 resumen: App de gastos para catorce comerciales, con aprobación en un clic y aviso automático a administración.
-resultado: "14 comerciales · aprobación en un clic"
 stack: Next.js · Vercel · Clerk · n8n · Google Sheets
 slides:
   - tipo: portada
   - tipo: frase
-    texto: Catorce comerciales por carretera, catorce sobres de tickets arrugados y una persona en la oficina descifrándolos a final de mes.
+    texto: Catorce comerciales por carretera, catorce sobres de tickets arrugados y una persona descifrándolos a final de mes.
+  - tipo: lista
+    titulo: Lo que costaba cada cierre de mes
+    puntos:
+      - { texto: "Reunir los tickets de catorce personas distintas" }
+      - { texto: "Descifrar para qué era cada gasto" }
+      - { texto: "Calcular a mano los kilómetros de cada ruta" }
+      - { texto: "Perseguir al comercial que no entregó lo suyo" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/cooperativa-hostelera/registro-gasto.png
+      alt: Formulario de la app donde el comercial registra un gasto y adjunta el ticket
+    pie: El gasto se registra donde ocurre, desde el móvil.
   - tipo: diagrama
     titulo: Un gasto, de la gasolinera a administración
     nodos:
-      - { id: foto, texto: El comercial fotografía el ticket, col: 0, fila: 1, humano: true }
-      - { id: clasifica, texto: Lo clasifica y añade una nota, col: 1, fila: 1 }
-      - { id: km, texto: El kilometraje se calcula solo, col: 1, fila: 2 }
-      - { id: panel, texto: Aparece en el panel del responsable, col: 2, fila: 1 }
-      - { id: aprueba, texto: El responsable aprueba o rechaza, col: 3, fila: 1, humano: true }
-      - { id: admin, texto: Administración recibe el aviso, col: 4, fila: 1 }
+      - { id: foto, texto: "El comercial fotografía el ticket", col: 0, fila: 1, humano: true }
+      - { id: tipo, texto: "¿Qué tipo de gasto es?", col: 1, fila: 1 }
+      - { id: km, texto: "Si es kilometraje, calcula el importe", col: 2, fila: 2 }
+      - { id: simple, texto: "Si no, toma el importe del ticket", col: 2, fila: 0 }
+      - { id: panel, texto: "Aparece en el panel del responsable", col: 3, fila: 1 }
+      - { id: decide, texto: "Aprueba o rechaza en un clic", col: 4, fila: 1, humano: true }
+      - { id: admin, texto: "Administración recibe el aviso", col: 5, fila: 1 }
     aristas:
-      - { de: foto, a: clasifica }
-      - { de: foto, a: km }
-      - { de: clasifica, a: panel }
+      - { de: foto, a: tipo }
+      - { de: tipo, a: km }
+      - { de: tipo, a: simple }
       - { de: km, a: panel }
-      - { de: panel, a: aprueba }
-      - { de: aprueba, a: admin }
+      - { de: simple, a: panel }
+      - { de: panel, a: decide }
+      - { de: decide, a: admin }
+    pie: El kilometraje calcula ida, vuelta y paradas intermedias.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/cooperativa-hostelera/acceso.png
+      alt: Pantalla de acceso a la aplicación de gastos de la cooperativa
+    pie: Cada comercial ve lo suyo; el responsable, el de su zona.
   - tipo: lista
-    titulo: Lo que resuelve
+    titulo: Qué cambió
     puntos:
-      - { texto: El gasto se registra donde ocurre, desde el móvil }
-      - { texto: El kilometraje calcula ida, vuelta y paradas intermedias }
-      - { texto: El responsable ve el ticket y decide en un clic }
-      - { texto: Administración se entera sin que nadie le escriba }
+      - { texto: "El ticket se fotografía y se olvida, no se guarda" }
+      - { texto: "El responsable decide desde el móvil, sin esperar al cierre" }
+      - { texto: "Administración se entera sin que nadie le escriba" }
+      - { texto: "El kilometraje deja de calcularse a mano" }
   - tipo: cifra
     valor: "14"
     etiqueta: comerciales que ya no guardan tickets en la guantera

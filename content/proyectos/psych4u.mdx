@@ -1,43 +1,72 @@
 ---
 cliente: Psych4U
-sector: Salud mental
+sector: Salud mental · Clínica
 pais: Estados Unidos
 anio: 2026
 grupo: cliente
 orden: 9
 logo: /portfolio/logos/psych4u.png
-titular: Un asistente que sabe cuándo no debe responder.
-resumen: Asistente web y agente de voz para una clínica de salud mental, definidos por sus límites antes que por sus capacidades.
 resultado: "Dos canales · ficha automática"
+titular: "Dos canales, un mismo recorrido: quien escribe y quien llama acaban en la misma bandeja, con la ficha ya hecha."
+resumen: Asistente web y telefónico para una clínica con dos sedes, con la ficha del paciente montada antes de que nadie la lea.
 stack: n8n · Retell AI · Google Workspace
 slides:
   - tipo: portada
   - tipo: frase
-    texto: En salud mental, un asistente que intenta ser útil de más no es un fallo técnico. Es un riesgo para una persona.
+    texto: Las consultas de la web se contestaban cuando alguien tenía un hueco. Las llamadas de fuera de horario, sencillamente, no se cogían.
   - tipo: lista
-    titulo: Lo que el sistema tiene prohibido
+    titulo: Lo que había antes
     puntos:
-      - { texto: Diagnosticar, en cualquier circunstancia }
-      - { texto: Dar consejo clínico, aunque se lo pidan }
-      - { texto: Continuar la conversación ante una señal de crisis }
-      - { texto: Responder algo que el equipo clínico no haya aprobado }
+      - { texto: "Dos sedes y dos canales que no se hablaban entre sí" }
+      - { texto: "Cada consulta atendida había que apuntarla a mano" }
+      - { texto: "Quien devolvía la llamada empezaba la conversación desde cero" }
+      - { texto: "Nadie sabía por dónde ni a qué hora entraba la gente" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/psych4u/web.png
+      alt: Web de la clínica Psych4U con su formulario de admisión
+    pie: La web por la que entra la mitad de las consultas.
   - tipo: diagrama
-    titulo: Ante una señal de crisis
+    titulo: El recorrido de una consulta, paso a paso
     nodos:
-      - { id: mensaje, texto: Llega un mensaje o una llamada, col: 0, fila: 1 }
-      - { id: detecta, texto: Se detecta una señal de crisis, col: 1, fila: 1 }
-      - { id: para, texto: El asistente deja de responder, col: 2, fila: 0 }
-      - { id: emergencia, texto: Deriva a los servicios de emergencia, col: 2, fila: 2 }
-      - { id: equipo, texto: El equipo clínico queda avisado, col: 3, fila: 1, humano: true }
+      - { id: web, texto: "Entra por el asistente de la web", col: 0, fila: 0 }
+      - { id: tel, texto: "Entra por teléfono", col: 0, fila: 2 }
+      - { id: puede, texto: "¿Se puede responder ya?", col: 1, fila: 1 }
+      - { id: responde, texto: "Contesta horarios, sedes y seguros", col: 2, fila: 0 }
+      - { id: datos, texto: "Recoge los datos de contacto", col: 2, fila: 2 }
+      - { id: ficha, texto: "Monta la ficha con el motivo en una línea", col: 3, fila: 2 }
+      - { id: avisa, texto: "Salta el aviso al equipo por correo", col: 4, fila: 2 }
+      - { id: registro, texto: "Todo queda en la hoja compartida", col: 4, fila: 0 }
+      - { id: llama, texto: "El equipo llama sabiendo ya quién es", col: 5, fila: 1, humano: true }
     aristas:
-      - { de: mensaje, a: detecta }
-      - { de: detecta, a: para }
-      - { de: detecta, a: emergencia }
-      - { de: para, a: equipo }
-      - { de: emergencia, a: equipo }
-    pie: La decisión de parar está escrita en el sistema, no en el criterio del momento.
+      - { de: web, a: puede }
+      - { de: tel, a: puede }
+      - { de: puede, a: responde }
+      - { de: puede, a: datos }
+      - { de: datos, a: ficha }
+      - { de: ficha, a: avisa }
+      - { de: responde, a: registro }
+      - { de: ficha, a: registro }
+      - { de: avisa, a: llama }
+    pie: Seis pasos, dos entradas y una sola bandeja.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/psych4u/flujo-consulta.png
+      alt: Flujo que recoge la consulta, la registra y avisa al equipo con la ficha montada
+    pie: El mismo sistema que la farmacia de Nueva York, adaptado.
+  - tipo: lista
+    titulo: Qué hace el sistema solo
+    puntos:
+      - { texto: "Contesta horarios, ubicación de cada sede, servicios y seguros" }
+      - { texto: "Explica cómo funciona la primera visita" }
+      - { texto: "Recoge el contacto en cuanto la persona pide que la llamen" }
+      - { texto: "Deja la conversación entera por si el equipo quiere el detalle" }
   - tipo: frase
-    texto: El equipo clínico actualiza en vivo lo que el asistente puede contestar. Nadie tiene que llamarnos para cambiar una respuesta.
+    texto: La base de preguntas la actualiza el propio equipo desde una hoja. Cambiar una respuesta no nos necesita.
+  - tipo: frase
+    texto: Cuando alguien devuelve una llamada, ya sabe quién es y qué necesitaba. No empieza desde cero.
+  - tipo: frase
+    texto: Es el mismo recorrido que la farmacia. Montarlo en otro negocio de citas no empieza de cero.
   - tipo: cierre
     stack: n8n · Retell AI · Google Workspace
 ---

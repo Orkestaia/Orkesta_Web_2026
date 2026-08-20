@@ -6,38 +6,67 @@ anio: 2026
 grupo: cliente
 orden: 10
 iniciales: ODV
+resultado: "Agenda sola · recupera pacientes"
 titular: La clínica deja de perder citas por teléfono y pacientes por olvido.
 resumen: Agente de voz que agenda, asistente de WhatsApp y avisos de revisión que traen de vuelta a quien ya confía en la clínica.
-resultado: "Agenda sola · recupera pacientes"
 stack: n8n · agente de voz · WhatsApp Business · agenda conectada
 slides:
   - tipo: portada
   - tipo: frase
     texto: El teléfono suena mientras se está atendiendo en el gabinete. Y nadie puede dejar la boca de un paciente para cogerlo.
+  - tipo: lista
+    titulo: Dos agujeros, uno visible y otro no
+    puntos:
+      - { texto: "La llamada que nadie coge y que no vuelve a intentarlo" }
+      - { texto: "La cita que se queda vacía porque se olvidó" }
+      - { texto: "El tratamiento que termina y no vuelve a revisión" }
+      - { texto: "La promoción que nunca llega a quien ya es paciente" }
   - tipo: diagrama
     titulo: La llamada que nadie puede coger
     nodos:
-      - { id: llama, texto: Un paciente llama, col: 0, fila: 1 }
-      - { id: ocupado, texto: En el gabinete no pueden cogerlo, col: 1, fila: 1, humano: true }
-      - { id: agente, texto: El agente atiende y resuelve la duda, col: 2, fila: 0 }
-      - { id: agenda, texto: Agenda la cita en el hueco real, col: 3, fila: 0 }
-      - { id: recuerda, texto: Recuerda la cita antes del día, col: 4, fila: 0 }
+      - { id: llama, texto: "Un paciente llama", col: 0, fila: 1 }
+      - { id: coge, texto: "¿Hay alguien libre en recepción?", col: 1, fila: 1 }
+      - { id: humano, texto: "La coge una persona", col: 2, fila: 0, humano: true }
+      - { id: agente, texto: "El agente atiende y resuelve la duda", col: 2, fila: 2 }
+      - { id: quiere, texto: "¿Quiere cita?", col: 3, fila: 2 }
+      - { id: agenda, texto: "La agenda en un hueco real", col: 4, fila: 1 }
+      - { id: recuerda, texto: "Se la recuerda antes del día", col: 5, fila: 1 }
     aristas:
-      - { de: llama, a: ocupado }
-      - { de: ocupado, a: agente }
-      - { de: agente, a: agenda }
+      - { de: llama, a: coge }
+      - { de: coge, a: humano }
+      - { de: coge, a: agente }
+      - { de: agente, a: quiere }
+      - { de: quiere, a: agenda }
+      - { de: humano, a: agenda }
       - { de: agenda, a: recuerda }
   - tipo: frase
     texto: "Hay un segundo problema, menos visible y más caro: el paciente que termina el tratamiento y no vuelve porque nadie se acordó de avisarle."
+  - tipo: diagrama
+    titulo: El paciente que vuelve meses después
+    nodos:
+      - { id: fin, texto: "Termina el tratamiento", col: 0, fila: 1 }
+      - { id: espera, texto: "Pasan los meses de rigor", col: 1, fila: 1 }
+      - { id: toca, texto: "Toca revisión", col: 2, fila: 1 }
+      - { id: aviso, texto: "Le llega el aviso", col: 3, fila: 0 }
+      - { id: oferta, texto: "O una promoción que le encaja", col: 3, fila: 2 }
+      - { id: vuelve, texto: "Pide cita otra vez", col: 4, fila: 1 }
+    aristas:
+      - { de: fin, a: espera }
+      - { de: espera, a: toca }
+      - { de: toca, a: aviso }
+      - { de: toca, a: oferta }
+      - { de: aviso, a: vuelve }
+      - { de: oferta, a: vuelve }
+    pie: Los dos primeros bloques evitan perder. Este genera.
   - tipo: lista
     titulo: Qué hace el sistema
     puntos:
-      - { texto: Atiende las llamadas que no se pueden coger y agenda }
-      - { texto: Responde por WhatsApp las preguntas de siempre }
-      - { texto: Recuerda la cita para que no se quede vacía la silla }
-      - { texto: Avisa cuando toca revisión, meses después }
+      - { texto: "Atiende las llamadas que no se pueden coger y agenda" }
+      - { texto: "Responde por WhatsApp las preguntas de siempre" }
+      - { texto: "Recuerda la cita para que no se quede vacía la silla" }
+      - { texto: "Avisa cuando toca revisión, meses después" }
   - tipo: frase
-    texto: Los dos primeros evitan perder lo que ya entra. El último genera citas de gente que, sin el aviso, no habría vuelto.
+    texto: Es el mismo sistema que hoy se ofrece como paquete a cualquier negocio que trabaje con cita previa.
   - tipo: cierre
     stack: n8n · agente de voz · WhatsApp Business · agenda conectada
 ---

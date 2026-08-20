@@ -6,42 +6,68 @@ anio: 2026
 grupo: cliente
 orden: 1
 logo: /portfolio/logos/golden-market.png
+resultado: "19 automatizaciones · 83 mensajes/día"
 titular: Una tienda que vende el triple sin contratar a nadie.
 resumen: Inventario, ventas, garantías y atención al cliente funcionando solos en una tienda de móviles reacondicionados.
-resultado: "19 automatizaciones · 83 mensajes/día"
 stack: Next.js · TypeScript · Vercel · n8n · Airtable · WooCommerce · Correos · WhatsApp · OpenAI
 slides:
   - tipo: portada
   - tipo: frase
     texto: Cada pedido obligaba a alguien a decidir qué móvil concreto salía de la estantería, apuntarlo y rellenar el envío a mano.
+  - tipo: lista
+    titulo: Lo que se hacía a mano
+    puntos:
+      - { texto: "Dar de alta cada móvil uno a uno desde la hoja del proveedor" }
+      - { texto: "Elegir qué unidad concreta se envía en cada pedido y apuntarlo" }
+      - { texto: "Rellenar el portal de envíos pedido por pedido" }
+      - { texto: "Contestar de madrugada dónde está mi paquete" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/golden-market/tienda.png
+      alt: Tienda online de Golden Market con el catálogo de iPhones reacondicionados
+    pie: La tienda por la que entran los pedidos.
   - tipo: diagrama
-    titulo: Qué pasa cuando alguien compra
+    titulo: Qué pasa desde que alguien compra
     nodos:
-      - { id: compra, texto: Entra un pedido, col: 0, fila: 1 }
-      - { id: ficha, texto: Se crea la venta y la ficha del cliente, col: 1, fila: 0 }
-      - { id: unidad, texto: Se elige qué unidad enviar, col: 1, fila: 2 }
-      - { id: etiqueta, texto: Se emite la etiqueta de envío, col: 2, fila: 1 }
+      - { id: compra, texto: "Entra un pedido en la tienda", col: 0, fila: 1 }
+      - { id: ficha, texto: "Se crea la venta y la ficha del cliente", col: 1, fila: 0 }
+      - { id: unidad, texto: "Se reserva la unidad más antigua", col: 1, fila: 2 }
+      - { id: stock, texto: "El stock publicado baja solo", col: 2, fila: 3 }
+      - { id: etiqueta, texto: "Se emite la etiqueta de envío", col: 2, fila: 1 }
       - {
           id: revisa,
-          texto: Una persona revisa y entrega al mensajero,
+          texto: "Una persona revisa y entrega al mensajero",
           col: 3,
           fila: 1,
           humano: true,
         }
+      - { id: avisa, texto: "El cliente recibe el aviso de envío", col: 4, fila: 1 }
     aristas:
       - { de: compra, a: ficha }
       - { de: compra, a: unidad }
+      - { de: unidad, a: stock }
       - { de: ficha, a: etiqueta }
       - { de: unidad, a: etiqueta }
       - { de: etiqueta, a: revisa }
-    pie: Seis pasos. Una sola acción humana.
+      - { de: revisa, a: avisa }
+    pie: Siete pasos. Una sola acción humana.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/golden-market/base-operativa.png
+      alt: Base de datos operativa con los pedidos, su canal de venta y su estado de entrega
+    pie: Cada pedido, con su estado, en un solo sitio.
   - tipo: lista
-    titulo: Qué dejó de hacerse a mano
+    titulo: Qué hace el sistema solo
     puntos:
-      - { texto: Dar de alta cada móvil uno a uno desde la hoja del proveedor }
-      - { texto: Decidir y apuntar qué unidad concreta se envía en cada pedido }
-      - { texto: Rellenar el portal de envíos pedido por pedido }
-      - { texto: Contestar de madrugada dónde está mi paquete }
+      - { texto: "Publica el stock nuevo en cuanto llega la hoja del proveedor" }
+      - { texto: "Lleva cada garantía por sus nueve estados, avisando en cada uno" }
+      - { texto: "Contesta el 83% de los mensajes sin que nadie los lea" }
+      - { texto: "Da al técnico y al proveedor su vista, sin precios ni márgenes" }
+  - tipo: imagen
+    imagen:
+      src: /portfolio/golden-market/panel.png
+      alt: Panel de control con los modelos más vendidos del mes
+    pie: El panel que mira el socio por la mañana.
   - tipo: cifra
     valor: "19"
     etiqueta: automatizaciones trabajando a la vez
@@ -53,7 +79,7 @@ slides:
     etiqueta: de trabajo repetitivo que desaparecen cada mes
     nota: volúmenes reales del sistema; tiempos por tarea estimados
   - tipo: frase
-    texto: Dos pedidos a la vez ya no generan dos etiquetas. El stock que ve el cliente es el que hay de verdad.
+    texto: Dos pedidos a la vez ya no generan dos etiquetas. Y el stock que ve el cliente es el que hay de verdad.
   - tipo: cierre
     stack: Next.js · TypeScript · Vercel · n8n · Airtable · WooCommerce · Correos · WhatsApp · OpenAI
 ---

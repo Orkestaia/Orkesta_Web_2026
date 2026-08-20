@@ -30,12 +30,17 @@ const aristaSchema = z.object({
   etiqueta: z.string().optional(),
 });
 
+/**
+ * Una imagen del deck. El ancho y el alto NO se escriben a mano: se leen del
+ * propio archivo al construir (ver `medirPng`). Escribirlos a mano es la vía
+ * directa a un salto de maquetación, que es justo el CLS que hay que evitar.
+ */
 const imagenSchema = z.object({
   src: z.string(),
   alt: z.string(),
-  ancho: z.number().int(),
-  alto: z.number().int(),
 });
+
+type Imagen = z.infer<typeof imagenSchema> & { ancho: number; alto: number };
 
 const slideSchema = z.discriminatedUnion("tipo", [
   z.object({ tipo: z.literal("portada") }),
@@ -95,13 +100,30 @@ export const proyectoSchema = z.object({
 
 export type Nodo = z.infer<typeof nodoSchema>;
 export type Arista = z.infer<typeof aristaSchema>;
-export type Slide = z.infer<typeof slideSchema>;
-export type Proyecto = z.infer<typeof proyectoSchema> & { slug: string };
+type SlideBase = z.infer<typeof slideSchema>;
+/** Como el esquema, pero con las imágenes ya medidas. */
+export type Slide =
+  | Exclude<SlideBase, { tipo: "imagen" } | { tipo: "comparativa" }>
+  | (Extract<SlideBase, { tipo: "imagen" }> & { imagen: Imagen })
+  | (Extract<SlideBase, { tipo: "comparativa" }> & { antes: Imagen; despues: Imagen });
+export type Proyecto = Omit<z.infer<typeof proyectoSchema>, "slides"> & {
+  slug: string;
+  slides: Slide[];
+};
 
 const CONTENT_DIR = join(process.cwd(), "content", "proyectos");
 
+/** Lee ancho y alto de la cabecera IHDR de un PNG, sin dependencias. */
+function medirPng(src: string): { ancho: number; alto: number } {
+  const buf = readFileSync(join(process.cwd(), "public", src.replace(/^\//, "")));
+  if (buf.length < 24 || buf.readUInt32BE(12) !== 0x49484452) {
+    throw new Error(`No se pudo medir ${src}: no parece un PNG con cabecera IHDR.`);
+  }
+  return { ancho: buf.readUInt32BE(16), alto: buf.readUInt32BE(20) };
+}
+
 /** Cuenta palabras de una diapositiva para el límite del §4 del brief. */
-function palabrasDe(slide: Slide): number {
+function palabrasDe(slide: SlideBase): number {
   const trozos: string[] = [];
   if ("texto" in slide && slide.texto) trozos.push(slide.texto);
   if ("pie" in slide && slide.pie) trozos.push(slide.pie);
@@ -136,7 +158,21 @@ export function getProyectos(): Proyecto[] {
           );
         }
       });
-      return { ...parsed.data, slug };
+      // Se completan las dimensiones reales de cada imagen
+      const slides = parsed.data.slides.map((slide) => {
+        if (slide.tipo === "imagen") {
+          return { ...slide, imagen: { ...slide.imagen, ...medirPng(slide.imagen.src) } };
+        }
+        if (slide.tipo === "comparativa") {
+          return {
+            ...slide,
+            antes: { ...slide.antes, ...medirPng(slide.antes.src) },
+            despues: { ...slide.despues, ...medirPng(slide.despues.src) },
+          };
+        }
+        return slide;
+      });
+      return { ...parsed.data, slides, slug } as Proyecto;
     });
 
   // Cliente primero, propios al final; dentro de cada grupo, por orden.

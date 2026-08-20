@@ -6,36 +6,51 @@ anio: 2026
 grupo: propio
 orden: 2
 iniciales: TX
+resultado: "500 €/año de ahorro"
 titular: Quinientos euros al año que se quedan en su bolsillo.
 resumen: Un taxista que dejó de pagar gestoría porque su contabilidad se lleva sola.
-resultado: "500 €/año de ahorro"
 stack: n8n · OCR con IA · Google Drive · Google Sheets
 slides:
   - tipo: portada
   - tipo: frase
-    texto: Un negocio de una persona. Sin departamento de administración, sin tiempo y con una caja de tickets en la guantera.
+    texto: Un negocio de una persona. Sin administración, sin tiempo y con una caja de tickets en la guantera.
+  - tipo: lista
+    titulo: Lo que hacía la gestoría
+    puntos:
+      - { texto: "Ordenar los tickets del trimestre" }
+      - { texto: "Separar gastos, ingresos y compras" }
+      - { texto: "Pasarlo todo a los libros que exige Hacienda" }
+      - { texto: "Cobrar por ello unos quinientos euros al año" }
   - tipo: diagrama
     titulo: De la foto del ticket a la contabilidad
     nodos:
-      - { id: foto, texto: Fotografía el ticket, col: 0, fila: 1, humano: true }
-      - { id: lee, texto: El sistema lee lo que pone, col: 1, fila: 1 }
-      - { id: tipo, texto: Distingue gasto, ingreso o compra, col: 2, fila: 1 }
-      - { id: gastos, texto: Lo anota en el libro que toca, col: 3, fila: 1 }
+      - { id: foto, texto: "Fotografía el ticket al bajarse", col: 0, fila: 1, humano: true }
+      - { id: llega, texto: "La foto llega a su carpeta", col: 1, fila: 1 }
+      - { id: formato, texto: "¿Es una foto o un PDF?", col: 2, fila: 1 }
+      - { id: ocr, texto: "Se lee el texto de la imagen", col: 3, fila: 0 }
+      - { id: pdf, texto: "Se lee el texto del documento", col: 3, fila: 2 }
+      - { id: tipo, texto: "¿Gasto, ingreso o adquisición?", col: 4, fila: 1 }
+      - { id: libro, texto: "Se anota en el libro que le toca", col: 5, fila: 1 }
     aristas:
-      - { de: foto, a: lee }
-      - { de: lee, a: tipo }
-      - { de: tipo, a: gastos }
+      - { de: foto, a: llega }
+      - { de: llega, a: formato }
+      - { de: formato, a: ocr }
+      - { de: formato, a: pdf }
+      - { de: ocr, a: tipo }
+      - { de: pdf, a: tipo }
+      - { de: tipo, a: libro }
     pie: Él sigue conduciendo. El sistema lleva las cuentas.
   - tipo: imagen
     imagen:
       src: /portfolio/taxi-facturacion/flujo-contabilidad.png
-      alt: Flujo que lee el ticket, distingue el tipo de movimiento y lo anota en el libro correspondiente
-      ancho: 1738
-      alto: 822
+      alt: Flujo que lee el ticket, distingue el tipo de movimiento y lo anota en su libro
     pie: El recorrido completo de un ticket fotografiado.
   - tipo: cifra
     valor: "500 €"
     etiqueta: al año que antes se iban en gestoría
+  - tipo: cifra
+    valor: "1 persona"
+    etiqueta: es todo el negocio, y ya no dedica un domingo al trimestre
   - tipo: frase
     texto: "Es el proyecto más pequeño del portfolio y probablemente el más convincente. No habla de transformación digital: habla de quinientos euros."
   - tipo: cierre

@@ -6,31 +6,57 @@ anio: 2026
 grupo: cliente
 orden: 7
 logo: /portfolio/logos/greenriot.png
+resultado: "+1.000 usuarios · oferta automática"
 titular: Mil usuarios en las primeras semanas, y un mapa que nunca aparece vacío.
 resumen: Plataforma para rescatar muebles abandonados, con un sistema que mantiene la oferta viva desde el primer día.
-resultado: "+1.000 usuarios · oferta automática"
 stack: Make · n8n · Apify · OpenAI · Meta Ads
 slides:
   - tipo: portada
   - tipo: frase
-    texto: La gente ya publicaba muebles abandonados en Instagram. El problema es que a las horas la publicación desaparecía entre las stories.
+    texto: La gente ya publicaba muebles abandonados en Instagram. A las horas la publicación desaparecía entre las stories.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/greenriot/portada-app.png
+      alt: Portada de GreenHunt con el radar de objetos disponibles en la ciudad
+    pie: "El radar: qué hay ahora mismo cerca de ti."
   - tipo: frase
     texto: Si alguien abre la app y el mapa está vacío, no vuelve nunca. Ese era el riesgo real del lanzamiento.
   - tipo: diagrama
-    titulo: Cómo se llena el mapa solo
+    titulo: Cómo se llena el mapa sin usuarios
     nodos:
-      - { id: vigila, texto: Vigila las cuentas donde ya se publica, col: 0, fila: 1 }
-      - { id: detecta, texto: Detecta lo que es nuevo, col: 1, fila: 1 }
-      - { id: extrae, texto: Saca foto, descripción y ubicación, col: 2, fila: 1 }
-      - { id: publica, texto: Aparece en el mapa de la app, col: 3, fila: 1 }
+      - { id: vigila, texto: "Vigila las cuentas donde ya se publica", col: 0, fila: 1 }
+      - { id: nuevo, texto: "¿Es una publicación nueva?", col: 1, fila: 1 }
+      - { id: ignora, texto: "Se ignora", col: 2, fila: 2 }
+      - { id: extrae, texto: "Saca foto, descripción y ubicación", col: 2, fila: 0 }
+      - { id: ubica, texto: "La sitúa en el mapa de la ciudad", col: 3, fila: 0 }
+      - { id: publica, texto: "Aparece en el radar de la app", col: 4, fila: 1 }
+      - { id: rescata, texto: "Alguien va a por ello", col: 5, fila: 1, humano: true }
     aristas:
-      - { de: vigila, a: detecta }
-      - { de: detecta, a: extrae }
-      - { de: extrae, a: publica }
+      - { de: vigila, a: nuevo }
+      - { de: nuevo, a: ignora }
+      - { de: nuevo, a: extrae }
+      - { de: extrae, a: ubica }
+      - { de: ubica, a: publica }
+      - { de: publica, a: rescata }
     pie: El mapa tiene cosas aunque ningún usuario haya publicado hoy.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/greenriot/mapa.png
+      alt: Mapa de Nueva York con los objetos disponibles señalados
+    pie: Lo que ve alguien al abrir la app en Nueva York.
+  - tipo: lista
+    titulo: Cuatro frentes a la vez
+    puntos:
+      - { texto: "Adquisición: campañas usadas para validar, no para crecer" }
+      - { texto: "Activación: que el primer minuto tenga algo que enseñar" }
+      - { texto: "Oferta: el sistema que llena el mapa solo" }
+      - { texto: "Alianzas: un creador con diez millones de audiencia, como cofundador" }
   - tipo: cifra
     valor: "+1.000"
     etiqueta: personas registradas en la fase inicial
+  - tipo: cifra
+    valor: "10 %"
+    etiqueta: de quienes se registran acaban publicando un objeto
   - tipo: frase
     texto: El hallazgo no fue conseguir los primeros mil usuarios. Fue descubrir que el cuello de botella ya no era la gente, era la oferta.
   - tipo: cierre

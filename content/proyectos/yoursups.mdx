@@ -6,24 +6,37 @@ anio: 2026
 grupo: cliente
 orden: 12
 logo: /portfolio/logos/yoursups.svg
+resultado: "7 procesos mapeados"
 titular: El sistema completo que diseñamos para un ecommerce que crecía más rápido que su operación.
 resumen: Siete procesos mapeados y una arquitectura que ordena stock, proveedores, facturación y atención.
-resultado: "7 procesos mapeados"
 stack: n8n · aplicación web a medida · CRM propio
 slides:
   - tipo: portada
   - tipo: frase
-    texto: Vendían más cada mes, y cada mes costaba más trabajo vender. El crecimiento estaba apretando todos los frentes a la vez.
+    texto: Vendían más cada mes, y cada mes costaba más trabajo vender.
+  - tipo: imagen
+    imagen:
+      src: /portfolio/yoursups/tienda.png
+      alt: Tienda de Yoursups con su catálogo de suplementación
+    pie: Catálogo amplio, marca propia y canal mayorista.
+  - tipo: lista
+    titulo: Dónde apretaba el crecimiento
+    puntos:
+      - { texto: "El stock se controlaba a ojo y había roturas" }
+      - { texto: "Los pedidos a mayoristas vivían en conversaciones sueltas" }
+      - { texto: "Las facturas se ordenaban a final de mes, a mano" }
+      - { texto: "La atención por correo se contestaba por orden de llegada" }
   - tipo: diagrama
-    titulo: Los siete procesos que diseñamos
+    titulo: Los siete procesos y cómo se conectan
     nodos:
-      - { id: stock, texto: Stock con aviso antes de la rotura, col: 0, fila: 0 }
-      - { id: pedidos, texto: Pedidos a proveedores con seguimiento, col: 0, fila: 2 }
-      - { id: facturas, texto: Facturas y contabilidad ordenadas, col: 1, fila: 0 }
-      - { id: email, texto: Atención por correo priorizada, col: 1, fila: 2 }
-      - { id: tareas, texto: Reuniones convertidas en tareas, col: 2, fila: 0 }
-      - { id: app, texto: Un panel que lo reúne todo, col: 2, fila: 2 }
-      - { id: crm, texto: Un CRM con la forma real del negocio, col: 3, fila: 1 }
+      - { id: stock, texto: "Stock con aviso antes de la rotura", col: 0, fila: 0 }
+      - { id: pedidos, texto: "Pedidos a mayoristas con seguimiento", col: 0, fila: 2 }
+      - { id: email, texto: "Atención por correo priorizada", col: 0, fila: 4 }
+      - { id: facturas, texto: "Facturas y contabilidad ordenadas", col: 1, fila: 1 }
+      - { id: tareas, texto: "Reuniones convertidas en tareas", col: 1, fila: 3 }
+      - { id: app, texto: "Un panel interno que lo reúne todo", col: 2, fila: 2 }
+      - { id: crm, texto: "Un CRM con la forma real del negocio", col: 3, fila: 2 }
+      - { id: decide, texto: "El equipo decide con todo delante", col: 4, fila: 2, humano: true }
     aristas:
       - { de: stock, a: facturas }
       - { de: pedidos, a: facturas }
@@ -31,11 +44,14 @@ slides:
       - { de: facturas, a: app }
       - { de: tareas, a: app }
       - { de: app, a: crm }
+      - { de: crm, a: decide }
   - tipo: frase
     texto: "El entregable de este proyecto es el diseño: saber qué se automatiza, qué no, y en qué orden conviene hacerlo."
   - tipo: cifra
     valor: "7"
     etiqueta: procesos mapeados antes de escribir una línea de código
+  - tipo: frase
+    texto: "Es exactamente lo que sale de un diagnóstico: el mapa de cómo funciona hoy un negocio y de cómo debería funcionar."
   - tipo: cierre
     stack: n8n · aplicación web a medida · CRM propio
 ---
