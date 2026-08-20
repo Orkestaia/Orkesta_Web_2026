@@ -33,17 +33,17 @@ import os
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
 
-FOTO = (
-    r"C:\Users\aitor\OneDrive\Escritorio\ORKESTA - JARVIS"
-    r"\01_ORKESTA_CORE\portafolio\orkesta_personal\aitor.jpeg"
-)
+# La foto vive en el repo para que la tarjeta se pueda regenerar sin depender
+# de rutas de fuera. Al cambiarla, sustituir el archivo y ajustar FOCO_Y y ZOOM.
+FOTO = os.path.join("assets", "foto", "aitor-2026-08.png")
 SALIDA = os.path.join("public", "lanyard")
 
 # ── Encuadre ───────────────────────────────────────────────────────────────
-BANDA_ANCLAJE = 0.13  # fracción de alto reservada arriba para la pinza
-FOCO_X, FOCO_Y = 0.5, 0.40
-ZOOM = 1.02
-RECORTE_ORIGEN = (0.0, 0.05, 0.93, 1.0)  # quita la marca de agua del original
+BANDA_ANCLAJE = 0.115  # fracción de alto reservada arriba para la pinza
+ALTO_FOTO = 0.60      # fracción de alto que ocupa la foto
+FOCO_X, FOCO_Y = 0.5, 0.18
+ZOOM = 1.0
+RECORTE_ORIGEN = (0.0, 0.0, 1.0, 1.0)  # la foto actual no necesita recorte previo
 
 # ── Marca (ORKESTA-DESIGN.md §2) ───────────────────────────────────────────
 BG = (5, 5, 5)
@@ -98,7 +98,7 @@ def delantera():
     d = ImageDraw.Draw(card)
 
     banda = int(H * BANDA_ANCLAJE)
-    alto_foto = int(H * 0.56)
+    alto_foto = int(H * ALTO_FOTO)
 
     foto = Image.open(FOTO).convert("RGB")
     fw, fh = foto.size
