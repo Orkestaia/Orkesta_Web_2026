@@ -40,3 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 qa/
+
+# Nunca publicables (ver CLAUDE.md, regla 1). Ignorados para que un
+# "git add -A" no los pueda colar aunque estén en el disco.
+public/portfolio/**/crm_renew.png
+public/portfolio/ortodoncia/
+
+# Originales sin procesar: las capturas buenas las genera prepara-capturas.py
+public/portfolio/**/Captura de pantalla*
