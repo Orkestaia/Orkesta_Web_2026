@@ -74,7 +74,7 @@ export function Deck({
       // antes de preguntar por su ascendencia.
       const objetivo = e.target instanceof Element ? e.target : null;
       if (objetivo?.closest("a,button,input,textarea")) {
-        if (e.key === "Escape") router.push("/");
+        if (e.key === "Escape") router.push("/proyectos");
         return;
       }
       switch (e.key) {
@@ -98,7 +98,7 @@ export function Deck({
           irA(total - 1);
           break;
         case "Escape":
-          router.push("/");
+          router.push("/proyectos");
           break;
       }
     };

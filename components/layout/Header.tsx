@@ -33,7 +33,7 @@ export function Header() {
         </Link>
         <div className="flex items-center gap-5 sm:gap-7">
           <Link
-            href="/"
+            href="/proyectos"
             className="text-small font-medium text-ork-text-muted transition-colors duration-[160ms] hover:text-ork-text"
           >
             Proyectos

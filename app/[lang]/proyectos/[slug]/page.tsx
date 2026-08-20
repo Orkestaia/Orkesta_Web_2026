@@ -79,7 +79,7 @@ export default async function ProyectoPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Link href="/" className="ork-deck__salir" aria-label="Volver a los proyectos">
+      <Link href="/proyectos" className="ork-deck__salir" aria-label="Volver a los proyectos">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
           <path
             d="M6 6l12 12M18 6L6 18"
