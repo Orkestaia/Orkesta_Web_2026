@@ -123,10 +123,8 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
           <h2 className="text-center font-display text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.1] font-bold tracking-[-0.02em] text-balance text-ork-text">
             {slide.titulo}
           </h2>
-          <div className="mt-10 overflow-x-auto">
-            <div className="min-w-[38rem]">
-              <FlowDiagram nodos={slide.nodos} aristas={slide.aristas} titulo={slide.titulo} />
-            </div>
+          <div className="mt-10">
+            <FlowDiagram nodos={slide.nodos} aristas={slide.aristas} titulo={slide.titulo} />
           </div>
           {slide.pie ? (
             <p className="mx-auto mt-8 max-w-[60ch] text-center text-body text-ork-text-muted">

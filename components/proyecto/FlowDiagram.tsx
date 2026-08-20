@@ -4,21 +4,22 @@ import type { Arista, Nodo } from "@/lib/proyectos";
  * Mapa del sistema — brief §5.
  *
  * SVG generado a partir de los datos del MDX, no una imagen estática.
- * Flujo de izquierda a derecha, conexiones con ángulo recto y esquina
- * redondeada (el lenguaje de las alas del logotipo).
+ * Conexiones con ángulo recto y esquina redondeada, el lenguaje de las alas
+ * del logotipo.
  *
  * 🔴 Los pasos que hace una persona van en violeta: es la demostración
  * visual de que no se automatiza todo, que es el argumento de la marca.
  *
- * Todo el movimiento es CSS (ver globals.css): las líneas se dibujan, los
- * nodos entran escalonados y un punto de luz recorre el circuito. Con
+ * En escritorio el flujo va de izquierda a derecha. En móvil se dibuja el
+ * mismo grafo transpuesto, de arriba abajo: a 375 px un diagrama horizontal
+ * o se sale de la pantalla o deja el texto ilegible.
+ *
+ * Todo el movimiento es CSS (globals.css): las líneas se dibujan, los nodos
+ * entran escalonados y un punto de luz recorre el circuito. Con
  * prefers-reduced-motion no se anima nada.
  */
 
-const ANCHO_NODO = 190;
-const ALTO_NODO = 74;
-const SEP_X = 96;
-const SEP_Y = 30;
+const SEP = { x: 96, y: 30 };
 const RADIO = 14;
 
 export function FlowDiagram({
@@ -30,30 +31,108 @@ export function FlowDiagram({
   aristas: Arista[];
   titulo: string;
 }) {
+  const llevaHumano = nodos.some((n) => n.humano);
+  return (
+    <figure className="ork-diagrama w-full">
+      {/* Escritorio: de izquierda a derecha */}
+      <div className="hidden md:block">
+        <Lienzo nodos={nodos} aristas={aristas} titulo={titulo} ancho={190} alto={74} />
+      </div>
+      {/* Móvil: el mismo grafo, de arriba abajo */}
+      <div className="md:hidden">
+        <Lienzo
+          nodos={nodos.map((n) => ({ ...n, col: n.fila, fila: n.col }))}
+          aristas={aristas}
+          titulo={titulo}
+          ancho={150}
+          alto={86}
+          vertical
+        />
+      </div>
+
+      {llevaHumano ? (
+        <figcaption className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-mono-label tracking-[0.12em] uppercase">
+          <span className="flex items-center gap-2 text-ork-text-muted">
+            <span
+              aria-hidden="true"
+              className="inline-block h-2.5 w-2.5 rounded-[3px] border border-ork-cyan"
+            />
+            Lo hace el sistema
+          </span>
+          <span className="flex items-center gap-2 text-ork-text-muted">
+            <span
+              aria-hidden="true"
+              className="inline-block h-2.5 w-2.5 rounded-[3px] border border-ork-violet"
+            />
+            Lo hace una persona
+          </span>
+        </figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+function Lienzo({
+  nodos,
+  aristas,
+  titulo,
+  ancho: ANCHO_NODO,
+  alto: ALTO_NODO,
+  vertical = false,
+}: {
+  nodos: Nodo[];
+  aristas: Arista[];
+  titulo: string;
+  ancho: number;
+  alto: number;
+  vertical?: boolean;
+}) {
   const columnas = Math.max(...nodos.map((n) => n.col)) + 1;
   const filas = Math.max(...nodos.map((n) => n.fila)) + 1;
+  const sepX = vertical ? 44 : SEP.x;
+  const sepY = vertical ? 26 : SEP.y;
 
-  const ancho = columnas * ANCHO_NODO + (columnas - 1) * SEP_X;
-  const alto = filas * ALTO_NODO + (filas - 1) * SEP_Y;
+  const ancho = columnas * ANCHO_NODO + (columnas - 1) * sepX;
+  const alto = filas * ALTO_NODO + (filas - 1) * sepY;
 
   const pos = (n: Nodo) => ({
-    x: n.col * (ANCHO_NODO + SEP_X),
-    y: n.fila * (ALTO_NODO + SEP_Y),
+    x: n.col * (ANCHO_NODO + sepX),
+    y: n.fila * (ALTO_NODO + sepY),
   });
   const porId = new Map(nodos.map((n) => [n.id, n]));
 
-  /** Conexión en L con esquina redondeada, de la derecha de A a la izquierda de B. */
+  /** Conexión en L con esquina redondeada entre dos nodos. */
   function trazado(a: Nodo, b: Nodo): string {
     const pa = pos(a);
     const pb = pos(b);
+
+    if (vertical) {
+      // De abajo de A a arriba de B
+      const x1 = pa.x + ANCHO_NODO / 2;
+      const y1 = pa.y + ALTO_NODO;
+      const x2 = pb.x + ANCHO_NODO / 2;
+      const y2 = pb.y;
+      const my = y1 + (y2 - y1) / 2;
+      if (Math.abs(x1 - x2) < 1) return `M ${x1} ${y1} V ${y2}`;
+      const dir = x2 > x1 ? 1 : -1;
+      const r = Math.min(RADIO, Math.abs(x2 - x1) / 2, Math.abs(my - y1));
+      return [
+        `M ${x1} ${y1}`,
+        `V ${my - r}`,
+        `Q ${x1} ${my} ${x1 + r * dir} ${my}`,
+        `H ${x2 - r * dir}`,
+        `Q ${x2} ${my} ${x2} ${my + r}`,
+        `V ${y2}`,
+      ].join(" ");
+    }
+
+    // De la derecha de A a la izquierda de B
     const x1 = pa.x + ANCHO_NODO;
     const y1 = pa.y + ALTO_NODO / 2;
     const x2 = pb.x;
     const y2 = pb.y + ALTO_NODO / 2;
     const mx = x1 + (x2 - x1) / 2;
-
     if (Math.abs(y1 - y2) < 1) return `M ${x1} ${y1} H ${x2}`;
-
     const dir = y2 > y1 ? 1 : -1;
     const r = Math.min(RADIO, Math.abs(y2 - y1) / 2, Math.abs(mx - x1));
     return [
@@ -76,93 +155,70 @@ export function FlowDiagram({
     .filter((t): t is { d: string; key: string } => t !== null);
 
   return (
-    <figure className="ork-diagrama w-full">
-      <svg
-        viewBox={`-4 -4 ${ancho + 8} ${alto + 8}`}
-        className="h-auto w-full"
-        role="img"
-        aria-label={titulo}
-      >
-        <title>{titulo}</title>
+    <svg
+      viewBox={`-4 -4 ${ancho + 8} ${alto + 8}`}
+      className="h-auto w-full"
+      role="img"
+      aria-label={titulo}
+    >
+      <title>{titulo}</title>
 
-        {/* Conexiones */}
-        <g fill="none" strokeWidth="1.5">
-          {trazados.map((t, i) => (
-            <path
-              key={t.key}
-              d={t.d}
-              className="ork-diagrama__linea"
-              stroke="var(--color-ork-border-hi)"
-              pathLength={1}
-              style={{ ["--i" as string]: i }}
-            />
-          ))}
-          {/* Punto de luz que recorre el circuito */}
-          {trazados.map((t, i) => (
-            <path
-              key={`luz-${t.key}`}
-              d={t.d}
-              className="ork-diagrama__luz"
-              stroke="var(--color-ork-cyan-hi)"
-              pathLength={1}
-              style={{ ["--i" as string]: i }}
-            />
-          ))}
-        </g>
+      <g fill="none" strokeWidth="1.5">
+        {trazados.map((t, i) => (
+          <path
+            key={t.key}
+            d={t.d}
+            className="ork-diagrama__linea"
+            stroke="var(--color-ork-border-hi)"
+            pathLength={1}
+            style={{ ["--i" as string]: i }}
+          />
+        ))}
+        {trazados.map((t, i) => (
+          <path
+            key={`luz-${t.key}`}
+            d={t.d}
+            className="ork-diagrama__luz"
+            stroke="var(--color-ork-cyan-hi)"
+            pathLength={1}
+            style={{ ["--i" as string]: i }}
+          />
+        ))}
+      </g>
 
-        {/* Nodos */}
-        {nodos.map((n, i) => {
-          const p = pos(n);
-          return (
-            <g
-              key={n.id}
-              className="ork-diagrama__nodo"
-              style={{ ["--i" as string]: i }}
-              transform={`translate(${p.x} ${p.y})`}
-            >
-              <rect
-                width={ANCHO_NODO}
-                height={ALTO_NODO}
-                rx="12"
-                fill="var(--color-ork-surface-2)"
-                stroke={n.humano ? "var(--color-ork-violet)" : "var(--color-ork-cyan)"}
-                strokeWidth="1.5"
-              />
-              <foreignObject width={ANCHO_NODO} height={ALTO_NODO}>
-                <div className="flex h-full items-center justify-center px-3 text-center">
-                  <span
-                    className={
-                      "text-[0.8125rem] leading-snug " +
-                      (n.humano ? "text-ork-violet" : "text-ork-text")
-                    }
-                  >
-                    {n.texto}
-                  </span>
-                </div>
-              </foreignObject>
-            </g>
-          );
-        })}
-      </svg>
-
-      {nodos.some((n) => n.humano) ? (
-        <figcaption className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-mono-label tracking-[0.12em] uppercase">
-          <span className="flex items-center gap-2 text-ork-text-muted">
-            <span
-              aria-hidden="true"
-              className="inline-block h-2.5 w-2.5 rounded-[3px] border border-ork-cyan"
+      {nodos.map((n, i) => {
+        const p = pos(n);
+        return (
+          <g
+            key={n.id}
+            className="ork-diagrama__nodo"
+            style={{ ["--i" as string]: i }}
+            transform={`translate(${p.x} ${p.y})`}
+          >
+            <rect
+              width={ANCHO_NODO}
+              height={ALTO_NODO}
+              rx="12"
+              fill="var(--color-ork-surface-2)"
+              stroke={n.humano ? "var(--color-ork-violet)" : "var(--color-ork-cyan)"}
+              strokeWidth="1.5"
             />
-            Lo hace el sistema
-          </span>
-          <span className="flex items-center gap-2 text-ork-text-muted">
-            <span
-              aria-hidden="true"
-              className="inline-block h-2.5 w-2.5 rounded-[3px] border border-ork-violet"
-            />
-            Lo hace una persona
-          </span>
-        </figcaption>
-      ) : null}
-    </figure>
+            <foreignObject width={ANCHO_NODO} height={ALTO_NODO}>
+              <div className="flex h-full items-center justify-center px-3 text-center">
+                <span
+                  className={
+                    (vertical ? "text-[0.72rem] " : "text-[0.8125rem] ") +
+                    "leading-snug " +
+                    (n.humano ? "text-ork-violet" : "text-ork-text")
+                  }
+                >
+                  {n.texto}
+                </span>
+              </div>
+            </foreignObject>
+          </g>
+        );
+      })}
+    </svg>
   );
 }
