@@ -18,7 +18,7 @@ const EMPRESA = "Orkesta Automatización & IA";
 export const metadata: Metadata = {
   title: `${NOMBRE} — ${CARGO} en ${EMPRESA}`,
   description:
-    "Diseño y construyo sistemas de automatización e IA para negocios reales. Dieciséis proyectos en España, Estados Unidos y Chile.",
+    "Diseño y construyo sistemas de automatización e IA para negocios reales en España, Estados Unidos y Chile.",
   alternates: { canonical: SITE_URL },
   openGraph: {
     title: `${NOMBRE} — ${EMPRESA}`,

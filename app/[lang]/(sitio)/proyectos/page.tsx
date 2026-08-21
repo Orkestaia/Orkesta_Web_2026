@@ -10,11 +10,11 @@ export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "Proyectos — Orkesta",
   description:
-    "Dieciséis sistemas de automatización e IA construidos para negocios reales en España, Estados Unidos y Chile.",
+    "Proyectos de automatización con inteligencia artificial para negocios reales en España, Estados Unidos y Chile.",
   alternates: { canonical: `${SITE_URL}/proyectos` },
   openGraph: {
     title: "Proyectos — Orkesta",
-    description: "Dieciséis sistemas construidos, contados de principio a fin.",
+    description: "Proyectos de automatización con IA, contados de principio a fin.",
     url: `${SITE_URL}/proyectos`,
     type: "website",
   },
