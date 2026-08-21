@@ -48,3 +48,27 @@ public/portfolio/ortodoncia/
 
 # Originales sin procesar: las capturas buenas las genera prepara-capturas.py
 public/portfolio/**/Captura de pantalla*
+
+# Originales que entrega Aitor dentro de la carpeta de cada cliente. Son la
+# fuente de `prepara-capturas.py`, viven en el disco y NO se publican: llevan
+# datos de terceros sin revisar (IMEI, correos, nombres, importes). Al repo
+# solo llega lo que sale del script, ya recortado y difuminado.
+public/portfolio/*/ariete/
+public/portfolio/*/arima/
+public/portfolio/*/coopnav/
+public/portfolio/*/gm_img_logo/
+public/portfolio/*/greenriot_greenhunt/
+public/portfolio/*/orkesta_personal/
+public/portfolio/*/quickrx_img_logo/
+public/portfolio/*/sutan/
+public/portfolio/*/taxi_facturacion/
+public/portfolio/*/waterfeaturepros/
+public/portfolio/*/yours/
+# Originales sueltos, sin subcarpeta
+public/portfolio/edelweiss/Logo edelweiss.jpeg
+public/portfolio/edelweiss/edelweiss-sign.avif
+public/portfolio/edelweiss/new ad edelweiss abril-Cover.jpg
+public/portfolio/psych4u/logopsy4u.png
+public/portfolio/renew/LOGO-VECTORIZADO_web_300x100-04.png
+public/portfolio/renew/renew.png
+public/portfolio/renew/renew_Web.png

@@ -41,6 +41,7 @@ const ETIQUETAS: Record<string, string> = {
   comparativa: "Antes y después",
   diagrama: "El sistema",
   cifra: "El resultado",
+  metricas: "El resultado",
   lista: "Qué se hizo",
   cierre: "Hablamos",
 };

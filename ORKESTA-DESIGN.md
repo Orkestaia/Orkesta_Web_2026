@@ -35,7 +35,7 @@ La referencia mental no es "web de agencia de IA con degradados morados". Es **c
 
 --ork-text: #ffffff; /* títulos y texto principal */
 --ork-text-muted: #b0b0b0; /* cuerpo, descripciones */
---ork-text-faint: #6e6e6e; /* metadatos, captions, labels */
+--ork-text-faint: #8a8a8a; /* metadatos, captions, labels — corregido 2026-08-19 */
 ```
 
 ### Degradado de marca
@@ -52,7 +52,7 @@ Uso: subrayados de titular, líneas de conexión, bordes de tarjeta activa, glow
 - El violeta es **profundidad y secundario**. Nunca es un CTA.
 - Superficie por defecto de una tarjeta: `--ork-surface-1` con borde `--ork-border` de 1px. En hover: `--ork-surface-2` + borde con degradado de marca al 40% de opacidad.
 - Máximo **un** elemento con glow por pantalla visible. El glow saturado es lo que hace que una web parezca barata.
-- Ratio de contraste mínimo AA (4.5:1) en todo el texto. `--ork-text-faint` sobre `--ork-bg` solo para texto de 14px+ no esencial.
+- Ratio de contraste mínimo AA (4.5:1) en **todo** el texto, sin excepción de tamaño. Ver la regla de `--ork-text-faint` en §3.
 
 ### Paleta prohibida en la web
 
@@ -88,6 +88,7 @@ mono-label 0.75rem  / tracking 0.12em / uppercase
 - Los titulares van en `--ork-text` puro. **Nunca** un titular entero en degradado; como mucho 1-3 palabras clave.
 - El cuerpo va en `--ork-text-muted`. Blanco puro en párrafos largos cansa sobre negro.
 - Ancho máximo de línea de lectura: `68ch`.
+- 🔴 **`--ork-text-faint` NUNCA se usa en texto informativo** (sector del cliente, stack, notas). Solo en elementos decorativos y en bloques de código de adorno. El valor anterior (`#6E6E6E`) daba 3,67:1 sobre el fondo y no llegaba a AA ni a 14 px — hallazgo de BUILDS, 2026-08-19. Se ha subido a `#8A8A8A` (≈5,2:1), pero la regla se mantiene: **para texto que aporta información, `--ork-text-muted`.**
 - Los `eyebrow` (etiquetas sobre los títulos de sección) van en JetBrains Mono, mayúsculas, `--ork-cyan`, precedidos de un guion: `— 01 / EL PROBLEMA`.
 
 ---
@@ -162,7 +163,7 @@ Prohibido: saturar la pieza, código ilegible, o que la página parezca document
 
 - **Cero fotos de stock.** Nada de manos robóticas, cerebros de circuitos, ni gente con auriculares señalando pantallas.
 - Lo visual es **generado o diagramático**: el orkestador 3D, redes de nodos, diagramas de flujo, capturas reales de sistemas construidos.
-- Las capturas de producto van dentro de un marco oscuro con borde de 1px y radio de 12px, nunca a sangre.
+- Las capturas de producto van dentro de un marco oscuro con borde de 1px y radio de 12px cuando conviven con texto. **Excepción: en las diapositivas de tipo `imagen` del portfolio van a sangre**, ocupando la pantalla completa — ahí la imagen es el contenido, no una ilustración.
 - Iconografía: lineal, outline, 1.5px de trazo, cyan o `--ork-text-muted`. Librería: Lucide.
 
 ---

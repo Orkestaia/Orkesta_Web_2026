@@ -84,11 +84,40 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
           <p className="font-display text-[clamp(5rem,19vw,15rem)] leading-[0.9] font-bold tracking-[-0.04em] text-ork-cyan-hi">
             {slide.valor}
           </p>
-          <p className="mx-auto mt-10 max-w-[26ch] text-balance text-h3 text-ork-text">
+          <p className="mx-auto mt-10 max-w-[26ch] text-balance text-[clamp(1.375rem,2.2vw,2rem)] leading-[1.3] text-ork-text">
             {slide.etiqueta}
           </p>
           {slide.nota ? (
             <p className="mx-auto mt-6 max-w-[46ch] font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase">
+              {slide.nota}
+            </p>
+          ) : null}
+        </div>
+      );
+
+    case "metricas":
+      return (
+        <div className="mx-auto w-full max-w-[68rem]">
+          <dl className="grid grid-cols-2 gap-x-10 gap-y-14 sm:gap-x-16 lg:grid-cols-4">
+            {slide.cifras.map((c) => (
+              <div key={c.etiqueta} className="text-center">
+                <dt className="sr-only">{c.etiqueta}</dt>
+                <dd>
+                  <p className="font-display text-[clamp(2.75rem,6vw,5rem)] leading-[0.95] font-bold tracking-[-0.03em] text-ork-cyan-hi">
+                    {c.valor}
+                  </p>
+                  <p
+                    aria-hidden="true"
+                    className="mx-auto mt-5 max-w-[16ch] text-balance text-body-lg text-ork-text"
+                  >
+                    {c.etiqueta}
+                  </p>
+                </dd>
+              </div>
+            ))}
+          </dl>
+          {slide.nota ? (
+            <p className="mx-auto mt-16 max-w-[52ch] text-center text-body-lg text-ork-text-muted">
               {slide.nota}
             </p>
           ) : null}
@@ -101,7 +130,7 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
           <h2 className="font-display text-[clamp(1.9rem,3.6vw,3rem)] leading-[1.08] font-bold tracking-[-0.02em] text-balance text-ork-text">
             {slide.titulo}
           </h2>
-          <ul className="mt-12 space-y-6">
+          <ul className="mt-14 space-y-7">
             {slide.puntos.map((p, i) => (
               <li key={p.texto} className="flex items-start gap-5">
                 <span
@@ -110,7 +139,9 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="text-body-lg text-ork-text">{p.texto}</span>
+                <span className="text-[clamp(1.125rem,1.6vw,1.625rem)] leading-[1.45] text-ork-text">
+                  {p.texto}
+                </span>
               </li>
             ))}
           </ul>
@@ -118,44 +149,56 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
       );
 
     case "diagrama":
+      // El mapa manda: se le da todo el ancho de la diapositiva. Encajarlo en
+      // 64rem obligaba a reducir el dibujo y con él la letra de los nodos.
       return (
-        <div className="mx-auto w-full max-w-[64rem]">
-          <h2 className="text-center font-display text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.1] font-bold tracking-[-0.02em] text-balance text-ork-text">
+        <div className="mx-auto w-full max-w-[1600px]">
+          <h2 className="text-center font-display text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1] font-bold tracking-[-0.02em] text-balance text-ork-text">
             {slide.titulo}
           </h2>
           <div className="mt-10">
             <FlowDiagram nodos={slide.nodos} aristas={slide.aristas} titulo={slide.titulo} />
           </div>
           {slide.pie ? (
-            <p className="mx-auto mt-8 max-w-[60ch] text-center text-body text-ork-text-muted">
+            <p className="mx-auto mt-8 max-w-[60ch] text-center text-body-lg text-ork-text-muted">
               {slide.pie}
             </p>
           ) : null}
         </div>
       );
 
-    case "imagen":
+    case "imagen": {
+      // Una captura de móvil es más alta que ancha: a ancho completo se sale
+      // de la diapositiva. En ese caso manda el alto y el ancho se ajusta.
+      const vertical = slide.imagen.alto > slide.imagen.ancho;
       return (
         <figure className="flex h-full w-full flex-col justify-center">
-          <div className="ork-marco relative mx-auto w-full max-w-[72rem]">
+          <div
+            className={
+              // Ancho completo de la diapositiva: en 72rem la letra de dentro
+              // de una captura de panel se quedaba en nada.
+              "ork-marco relative mx-auto " + (vertical ? "w-fit" : "w-full")
+            }
+          >
             <Image
               src={slide.imagen.src}
               alt={slide.imagen.alt}
               width={slide.imagen.ancho}
               height={slide.imagen.alto}
-              sizes="(max-width: 767px) 92vw, 72rem"
-              className="h-auto w-full"
+              sizes={vertical ? "(max-width: 767px) 70vw, 30vh" : "(max-width: 767px) 92vw, 90vw"}
+              className={vertical ? "max-h-[58vh] w-auto" : "h-auto w-full"}
             />
           </div>
-          <figcaption className="mx-auto mt-8 max-w-[60ch] text-center text-body text-ork-text-muted">
+          <figcaption className="mx-auto mt-8 max-w-[60ch] text-center text-body-lg text-ork-text-muted">
             {slide.pie}
           </figcaption>
         </figure>
       );
+    }
 
     case "comparativa":
       return (
-        <figure className="mx-auto w-full max-w-[72rem]">
+        <figure className="mx-auto w-full">
           <div className="grid gap-5 sm:grid-cols-2">
             {[slide.antes, slide.despues].map((img, i) => (
               <div key={img.src} className="overflow-hidden rounded-xl border border-ork-border">
@@ -167,34 +210,37 @@ function contenido(slide: SlideDatos, proyecto: Proyecto) {
                   alt={img.alt}
                   width={img.ancho}
                   height={img.alto}
-                  sizes="(max-width: 639px) 92vw, 36rem"
+                  sizes="(max-width: 639px) 92vw, 45vw"
                   className="h-auto w-full"
                 />
               </div>
             ))}
           </div>
-          <figcaption className="mx-auto mt-8 max-w-[60ch] text-center text-body text-ork-text-muted">
+          <figcaption className="mx-auto mt-8 max-w-[60ch] text-center text-body-lg text-ork-text-muted">
             {slide.pie}
           </figcaption>
         </figure>
       );
 
     case "cierre":
+      // Decisión de Aitor (2026-08-21): fuera «¿Tienes un problema parecido?» y
+      // fuera la lista de herramientas de cada proyecto. El cierre es el mismo
+      // en los dieciséis y no habla de stack, habla de criterio.
       return (
         <div className="text-center">
-          <h2 className="mx-auto max-w-[18ch] font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.04] font-bold tracking-[-0.03em] text-balance text-ork-text">
-            ¿Tienes un problema parecido?
+          <h2 className="mx-auto max-w-[24ch] font-display text-[clamp(2rem,4vw,3.5rem)] leading-[1.08] font-bold tracking-[-0.03em] text-balance text-ork-text">
+            Soluciones hechas con experiencia.{" "}
+            <span className="text-ork-text-muted">
+              Pensadas para dar resultados desde el principio.
+            </span>
           </h2>
-          <p className="mx-auto mt-8 max-w-[52ch] text-body-lg text-ork-text-muted">
+          <p className="mx-auto mt-10 max-w-[52ch] text-body-lg text-ork-text-muted">
             Me cuentas cómo funciona hoy tu operación y te digo qué automatizaría primero — y qué
             no.
           </p>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-12 flex justify-center">
             <Button href={CAL_URL}>Agenda una llamada</Button>
           </div>
-          <p className="mx-auto mt-16 max-w-[70ch] font-mono text-mono-label tracking-[0.12em] text-ork-text-muted uppercase">
-            {slide.stack}
-          </p>
         </div>
       );
   }

@@ -40,7 +40,7 @@ SALIDA = os.path.join("public", "lanyard")
 
 # ── Encuadre ───────────────────────────────────────────────────────────────
 BANDA_ANCLAJE = 0.115  # fracción de alto reservada arriba para la pinza
-ALTO_FOTO = 0.60      # fracción de alto que ocupa la foto
+ALTO_FOTO = 0.56      # fracción de alto que ocupa la foto
 FOCO_X, FOCO_Y = 0.5, 0.18
 ZOOM = 1.0
 RECORTE_ORIGEN = (0.0, 0.0, 1.0, 1.0)  # la foto actual no necesita recorte previo
@@ -128,17 +128,19 @@ def delantera():
     y0 = (banda - ranura_h) // 2 + 4
     d.rounded_rectangle([x0, y0, x0 + ranura_w, y0 + ranura_h], radius=8, fill=BG)
 
-    f_nombre = fuente("space-grotesk-latin-700-normal", 62)
-    f_cargo = fuente("jetbrains-mono-latin-400-normal", 27)
-    f_empresa = fuente("inter-latin-400-normal", 30)
+    # Tamaños subidos un 25% (Aitor, 2026-08-21: "el texto de la tarjeta
+    # se ve muy pequeño"). La foto cede un 4% de alto para dejar sitio.
+    f_nombre = fuente("space-grotesk-latin-700-normal", 78)
+    f_cargo = fuente("jetbrains-mono-latin-400-normal", 33)
+    f_empresa = fuente("inter-latin-400-normal", 37)
 
     tope = banda + alto_foto
-    alto_bloque = 62 + 30 + 27 + 26 + 30
+    alto_bloque = 78 + 34 + 33 + 30 + 37
     y = tope + (H - tope - alto_bloque) // 2
     d.text((54, y), NOMBRE, font=f_nombre, fill=TEXTO)
-    y += 92
+    y += 112
     d.text((54, y), CARGO.upper(), font=f_cargo, fill=CYAN)
-    y += 53
+    y += 62
     d.text((54, y), EMPRESA, font=f_empresa, fill=MUTED)
     return card
 

@@ -44,6 +44,7 @@ export default function Lanyard({
   imageFit = "cover",
   lanyardImage = null,
   lanyardWidth = 1,
+  cardScale = 1,
 }) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
@@ -53,6 +54,18 @@ export default function Lanyard({
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  /*
+   * R3F mide su contenedor con un observador de tamaño que aquí NO se dispara
+   * en el primer montaje: el lienzo se queda en los 300x150 por defecto y la
+   * ficha no aparece — la portada sale vacía. Verificado en Chrome real, con
+   * build de producción: un solo evento de resize después del primer
+   * fotograma lo obliga a medir y la escena aparece. No quitar.
+   */
+  useEffect(() => {
+    const id = requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   return (
@@ -72,6 +85,7 @@ export default function Lanyard({
             imageFit={imageFit}
             lanyardImage={lanyardImage}
             lanyardWidth={lanyardWidth}
+            cardScale={cardScale}
           />
         </Physics>
         <Environment blur={0.75}>
@@ -117,7 +131,16 @@ function Band({
   imageFit = "cover",
   lanyardImage = null,
   lanyardWidth = 1,
+  cardScale = 1,
 }) {
+  /*
+   * `cardScale` agranda la tarjeta sin tocar la cámara. Acercar la cámara
+   * deja el cordón fuera de cuadro (ver CLAUDE.md), así que lo que crece es
+   * la ficha. Todo lo que va en unidades de la tarjeta —el colisionador, el
+   * desplazamiento del grupo y el punto donde engancha la cuerda— se escala
+   * con ella, o el enganche deja de caer sobre la pinza.
+   */
+  const k = cardScale;
   const band = useRef(),
     fixed = useRef(),
     j1 = useRef(),
@@ -208,7 +231,7 @@ function Band({
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 1.5, 0],
+    [0, 1.5 * k, 0],
   ]);
 
   useEffect(() => {
@@ -276,10 +299,10 @@ function Band({
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
         >
-          <CuboidCollider args={[0.8, 1.125, 0.01]} />
+          <CuboidCollider args={[0.8 * k, 1.125 * k, 0.01]} />
           <group
-            scale={2.25}
-            position={[0, -1.2, -0.05]}
+            scale={2.25 * k}
+            position={[0, -1.2 * k, -0.05 * k]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}

@@ -18,8 +18,41 @@ JARVIS = r"C:\Users\aitor\OneDrive\Escritorio\ORKESTA - JARVIS\01_ORKESTA_CORE\p
 DESTINO = os.path.join("public", "portfolio")
 
 
+def _indice_local():
+    """Mapa 'carpeta_original/archivo' → ruta, dentro de public/portfolio.
+
+    Los originales vivían en JARVIS. Desde 2026-08-21 Aitor los entrega dentro
+    de la carpeta de cada cliente, en public/portfolio/<slug>/<carpeta>/. Esa
+    carpeta la ignora git (ver .gitignore): al repo solo llega el resultado de
+    este script, nunca el original sin revisar.
+    """
+    idx = {}
+    for slug in sorted(os.listdir(DESTINO)):
+        base = os.path.join(DESTINO, slug)
+        if not os.path.isdir(base):
+            continue
+        for sub in sorted(os.listdir(base)):
+            carpeta = os.path.join(base, sub)
+            if not os.path.isdir(carpeta):
+                # Algunos clientes traen los originales sueltos en su carpeta,
+                # sin subcarpeta: ahí la clave es el propio slug.
+                idx.setdefault(slug + "/" + sub, carpeta)
+                continue
+            for f in os.listdir(carpeta):
+                idx[sub + "/" + f] = os.path.join(carpeta, f)
+    return idx
+
+
+LOCAL = _indice_local()
+
+
 def abrir(rel):
-    return Image.open(os.path.join(JARVIS, rel.replace("/", os.sep))).convert("RGB")
+    ruta = os.path.join(JARVIS, rel.replace("/", os.sep))
+    if not os.path.exists(ruta):
+        ruta = LOCAL.get(rel)
+    if not ruta or not os.path.exists(ruta):
+        raise FileNotFoundError("No se encuentra el original " + rel)
+    return Image.open(ruta).convert("RGB")
 
 
 def guardar(im, slug, nombre):
@@ -34,6 +67,15 @@ def guardar(im, slug, nombre):
 def recorta(im, izq=0.0, arr=0.0, der=1.0, aba=1.0):
     w, h = im.size
     return im.crop((int(w * izq), int(h * arr), int(w * der), int(h * aba)))
+
+
+def apila(arriba, abajo):
+    """Une dos recortes en vertical, para saltarse una franja del medio."""
+    ancho = min(arriba.width, abajo.width)
+    fuera = Image.new("RGB", (ancho, arriba.height + abajo.height))
+    fuera.paste(arriba.crop((0, 0, ancho, arriba.height)), (0, 0))
+    fuera.paste(abajo.crop((0, 0, ancho, abajo.height)), (0, arriba.height))
+    return fuera
 
 
 def difumina(im, izq, arr, der, aba, radio=14):
@@ -91,12 +133,52 @@ for rel, slug, nombre in DIRECTAS:
 
 print("\nCapturas intervenidas (con el motivo):")
 
-# Golden Market · el panel trae margen medio, cobrado del mes y una gráfica de
-# ingresos: cifras 🔴 del cliente. Además alguien marcó una zona con un recuadro
-# rojo. Se recorta a la tarjeta de modelos vendidos, que va en unidades y está
-# limpia de las dos cosas.
-gm = abrir("gm_img_logo/GM_APP.png")
-guardar(recorta(gm, izq=0.503, arr=0.425, der=0.884, aba=0.875), "golden-market", "panel.png")
+# Golden Market · el panel de resumen. Del recorte anterior (solo la tarjeta de
+# modelos vendidos) dijo Aitor que «apenas se ve el panel», así que ahora entra
+# entero hasta el final de las dos gráficas. Lo que se tapa:
+#   · la fila de indicadores: facturado del mes y margen medio → cifras 🔴
+#   · el eje derecho de la gráfica, que va en euros de ingresos → cifra 🔴
+# Lo que queda —unidades vendidas, modelos, secciones del panel— es 🟢.
+gm = abrir("gm_img_logo/Captura de pantalla 2026-08-20 160520.png")
+gm = difumina(gm, 0.449, 0.283, 0.479, 0.560, radio=7)
+guardar(
+    # La fila de indicadores se quita entera en vez de difuminarla: cuatro
+    # borrones seguidos se leen peor que no enseñarla.
+    apila(recorta(gm, aba=0.117), recorta(gm, arr=0.217, aba=0.625)),
+    "golden-market",
+    "panel.png",
+)
+
+# Golden Market · el panel de garantías y reparaciones, que es el circuito de
+# postventa: cada ticket con su estado, su tipo y los días que lleva abierto.
+# Lleva dos columnas de datos de terceros —el IMEI, que identifica el teléfono
+# concreto de un cliente, y el teléfono del cliente—: las dos difuminadas.
+rma = abrir("gm_img_logo/Captura de pantalla 2026-08-20 160717.png")
+rma = difumina(rma, 0.236, 0.585, 0.305, 1.0, radio=8)
+rma = difumina(rma, 0.615, 0.585, 0.670, 1.0, radio=8)
+guardar(recorta(rma, aba=0.99), "golden-market", "garantias.png")
+
+# Mission Control · el roster de agentes. Es la captura que pedía Aitor: se ven
+# los cinco con su nombre y su estado. Sin datos de nadie; solo se recorta el
+# hueco vacío de abajo.
+eq = abrir("orkesta_personal/Captura de pantalla 2026-08-19 133450.png")
+guardar(recorta(eq, aba=0.76), "mission-control", "equipo.png")
+
+# Mission Control · la sala del agente de contenido. Limpia; se recorta el
+# hueco vacío de abajo.
+est = abrir("orkesta_personal/Captura de pantalla 2026-08-19 133507.png")
+guardar(recorta(est, aba=0.87), "mission-control", "estudio.png")
+
+# Arima · el flujo de entrada y clasificación de solicitudes. Solo nombres de
+# pasos, ilegibles a este tamaño y sin datos de nadie. Se recorta el aviso
+# naranja de ejecución del pie, que es cromo de la herramienta.
+ar = abrir("arima/Captura de pantalla 2026-08-19 141517.png")
+guardar(recorta(ar, aba=0.90), "arima-experience", "flujo.png")
+
+# GreenRiot · el listado de hallazgos cercanos en el móvil. Objetos, distancia
+# y hace cuánto: ni una persona identificable. Se recorta la barra de Android.
+gr = abrir("greenriot_greenhunt/WhatsApp Image 2026-08-19 at 14.24.43.jpeg")
+guardar(recorta(gr, aba=0.935), "greenriot", "hallazgos.png")
 
 # Golden Market · la base operativa lleva una columna de IMEI: identifican
 # el teléfono concreto que compró cada cliente. Se difumina esa columna.

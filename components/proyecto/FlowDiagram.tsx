@@ -19,8 +19,42 @@ import type { Arista, Nodo } from "@/lib/proyectos";
  * prefers-reduced-motion no se anima nada.
  */
 
-const SEP = { x: 96, y: 30 };
 const RADIO = 14;
+
+/**
+ * El tamaño de un nodo NO es fijo: se calcula para que el conjunto ocupe
+ * siempre el mismo ancho de lienzo. El SVG se dibuja con `width: 100%`, así
+ * que un grafo de siete columnas con nodos de ancho fijo se reducía a la
+ * mitad y la letra de dentro acababa en 7 px — el motivo de la queja de
+ * Aitor (2026-08-21: "no se ve la letra de dentro").
+ *
+ * Con el ancho total clavado, la escala de dibujo es ~1 y el texto se ve al
+ * tamaño que dice `fuente`, tenga el diagrama cinco columnas o siete.
+ */
+const LIENZO = {
+  // Escritorio: el ancho real que ocupa la diapositiva en un portátil de 1440
+  escritorio: { ancho: 1280, sepX: 44, sepY: 34, fuente: 15 },
+  // Móvil: el mismo grafo transpuesto. Se dibuja al doble y se reduce a la
+  // mitad, así que la letra también acaba en ~13 px reales.
+  movil: { ancho: 720, sepX: 40, sepY: 44, fuente: 26 },
+};
+
+/**
+ * Alto de nodo suficiente para el texto más largo del grafo.
+ *
+ * Es una estimación: dentro del `foreignObject` quien parte las líneas es el
+ * navegador, no este cálculo. Se toma el ancho medio de carácter de Inter
+ * (~0,52 em) con un 15% de holgura por los cortes de palabra, y se reserva
+ * una línea de más. Quedarse corto rompe la caja; pasarse solo deja aire.
+ */
+function altoNodo(nodos: Nodo[], anchoNodo: number, fuente: number): number {
+  const util = Math.max(1, anchoNodo - 26);
+  const lineas = Math.max(
+    2,
+    ...nodos.map((n) => Math.ceil((n.texto.length * fuente * 0.52 * 1.15) / util)),
+  );
+  return Math.round((lineas + 1) * fuente * 1.3 + 12);
+}
 
 export function FlowDiagram({
   nodos,
@@ -36,7 +70,7 @@ export function FlowDiagram({
     <figure className="ork-diagrama w-full">
       {/* Escritorio: de izquierda a derecha */}
       <div className="hidden md:block">
-        <Lienzo nodos={nodos} aristas={aristas} titulo={titulo} ancho={190} alto={74} />
+        <Lienzo nodos={nodos} aristas={aristas} titulo={titulo} medidas={LIENZO.escritorio} />
       </div>
       {/* Móvil: el mismo grafo, de arriba abajo */}
       <div className="md:hidden">
@@ -44,8 +78,7 @@ export function FlowDiagram({
           nodos={nodos.map((n) => ({ ...n, col: n.fila, fila: n.col }))}
           aristas={aristas}
           titulo={titulo}
-          ancho={150}
-          alto={86}
+          medidas={LIENZO.movil}
           vertical
         />
       </div>
@@ -76,21 +109,22 @@ function Lienzo({
   nodos,
   aristas,
   titulo,
-  ancho: ANCHO_NODO,
-  alto: ALTO_NODO,
+  medidas,
   vertical = false,
 }: {
   nodos: Nodo[];
   aristas: Arista[];
   titulo: string;
-  ancho: number;
-  alto: number;
+  medidas: { ancho: number; sepX: number; sepY: number; fuente: number };
   vertical?: boolean;
 }) {
   const columnas = Math.max(...nodos.map((n) => n.col)) + 1;
   const filas = Math.max(...nodos.map((n) => n.fila)) + 1;
-  const sepX = vertical ? 44 : SEP.x;
-  const sepY = vertical ? 26 : SEP.y;
+  const { sepX, sepY, fuente } = medidas;
+
+  // El ancho total es la constante; lo que cede es el ancho de cada nodo.
+  const ANCHO_NODO = Math.round((medidas.ancho - (columnas - 1) * sepX) / columnas);
+  const ALTO_NODO = altoNodo(nodos, ANCHO_NODO, fuente);
 
   const ancho = columnas * ANCHO_NODO + (columnas - 1) * sepX;
   const alto = filas * ALTO_NODO + (filas - 1) * sepY;
@@ -163,7 +197,7 @@ function Lienzo({
     >
       <title>{titulo}</title>
 
-      <g fill="none" strokeWidth="1.5">
+      <g fill="none" strokeWidth={fuente / 10}>
         {trazados.map((t, i) => (
           <path
             key={t.key}
@@ -198,19 +232,18 @@ function Lienzo({
             <rect
               width={ANCHO_NODO}
               height={ALTO_NODO}
-              rx="12"
+              rx={Math.round(fuente * 0.8)}
               fill="var(--color-ork-surface-2)"
               stroke={n.humano ? "var(--color-ork-violet)" : "var(--color-ork-cyan)"}
-              strokeWidth="1.5"
+              strokeWidth={fuente / 10}
             />
             <foreignObject width={ANCHO_NODO} height={ALTO_NODO}>
-              <div className="flex h-full items-center justify-center px-3 text-center">
+              <div className="flex h-full items-center justify-center text-center">
                 <span
-                  className={
-                    (vertical ? "text-[0.72rem] " : "text-[0.8125rem] ") +
-                    "leading-snug " +
-                    (n.humano ? "text-ork-violet" : "text-ork-text")
-                  }
+                  // El tamaño va en unidades del viewBox, no en rem: con el
+                  // ancho de lienzo fijo, una unidad ≈ un píxel en pantalla.
+                  style={{ fontSize: fuente, padding: `0 ${Math.round(fuente * 0.8)}px` }}
+                  className={"leading-snug " + (n.humano ? "text-ork-violet" : "text-ork-text")}
                 >
                   {n.texto}
                 </span>

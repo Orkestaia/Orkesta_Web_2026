@@ -17,6 +17,8 @@ declare module "@/components/Lanyard" {
     imageFit?: "cover" | "contain";
     lanyardImage?: string | null;
     lanyardWidth?: number;
+    /** Multiplica el tamaño de la ficha sin mover la cámara. 1 = original */
+    cardScale?: number;
   }
   const Lanyard: (props: LanyardProps) => JSX.Element;
   export default Lanyard;

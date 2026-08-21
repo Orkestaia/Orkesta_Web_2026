@@ -20,16 +20,35 @@ const BASE = process.argv[2] ?? "http://localhost:3200";
 const SALIDA = "qa";
 
 const RUTAS = [
-  { nombre: "portada", url: "/", espera: 2600 },
+  // La ficha tiene física: a los 2,6 s todavía se está columpiando.
+  { nombre: "portada", url: "/", espera: 7000 },
   { nombre: "proyectos", url: "/proyectos", espera: 1800 },
   { nombre: "deck-portada", url: "/proyectos/golden-market", espera: 1200 },
   { nombre: "deck-frase", url: "/proyectos/golden-market", slide: 1, espera: 1200 },
   { nombre: "deck-diagrama", url: "/proyectos/golden-market", slide: 4, espera: 2400 },
   { nombre: "deck-imagen", url: "/proyectos/golden-market", slide: 3, espera: 1600 },
   { nombre: "deck-lista", url: "/proyectos/golden-market", slide: 6, espera: 1400 },
-  { nombre: "deck-cifra", url: "/proyectos/golden-market", slide: 8, espera: 1200 },
-  { nombre: "deck-cierre", url: "/proyectos/golden-market", slide: 12, espera: 1200 },
+  { nombre: "deck-panel", url: "/proyectos/golden-market", slide: 7, espera: 1600 },
+  { nombre: "deck-garantias", url: "/proyectos/golden-market", slide: 8, espera: 1600 },
+  { nombre: "deck-cifra", url: "/proyectos/golden-market", slide: 9, espera: 1200 },
+  { nombre: "deck-cierre", url: "/proyectos/golden-market", slide: 14, espera: 1200 },
   { nombre: "deck-psych4u", url: "/proyectos/psych4u", slide: 4, espera: 2400 },
+  // El diagrama más ancho del portfolio: siete columnas
+  {
+    nombre: "deck-quickrx-diagrama",
+    url: "/proyectos/quickrx-specialty-pharmacy",
+    slide: 3,
+    espera: 2400,
+  },
+  {
+    nombre: "deck-quickrx-metricas",
+    url: "/proyectos/quickrx-specialty-pharmacy",
+    slide: 9,
+    espera: 1400,
+  },
+  { nombre: "deck-mc-equipo", url: "/proyectos/mission-control", slide: 2, espera: 1600 },
+  { nombre: "deck-mc-lista", url: "/proyectos/mission-control", slide: 3, espera: 1400 },
+  { nombre: "deck-greenriot-vertical", url: "/proyectos/greenriot", slide: 6, espera: 1600 },
 ];
 
 const VISTAS = [

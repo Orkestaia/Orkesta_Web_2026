@@ -63,6 +63,9 @@ export function TarjetaAitor() {
         // El cordón que trae el componente es negro y lleva el logotipo de
         // React Bits: invisible sobre fondo negro y de otra marca.
         lanyardImage="/lanyard/cordon-orkesta.png"
+        // La ficha se veía pequeña (Aitor, 2026-08-21). No se toca la cámara
+        // —acercarla saca el cordón de cuadro—: crece la tarjeta.
+        cardScale={1.35}
       />
     </div>
   );

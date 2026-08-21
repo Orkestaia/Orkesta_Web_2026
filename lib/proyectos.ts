@@ -70,12 +70,29 @@ const slideSchema = z.discriminatedUnion("tipo", [
     etiqueta: z.string(),
     nota: z.string().optional(),
   }),
+  /**
+   * Varias cifras en una sola diapositiva. Es lo contrario de `cifra`: sirve
+   * cuando el resultado no es un número sino un cuadro de mando pequeño y lo
+   * que convence es verlos juntos.
+   */
+  z.object({
+    tipo: z.literal("metricas"),
+    cifras: z
+      .array(z.object({ valor: z.string(), etiqueta: z.string() }))
+      .min(2)
+      .max(4),
+    nota: z.string().optional(),
+  }),
   z.object({
     tipo: z.literal("lista"),
     titulo: z.string(),
-    puntos: z.array(z.object({ texto: z.string() })).max(4),
+    // El brief pide 4 (§4). El tope se sube a 5 por un caso concreto: el
+    // roster de Mission Control tiene cinco agentes y partirlo en dos
+    // diapositivas contaría peor lo que hace cada uno. Sigue mandando el
+    // límite de 90 palabras.
+    puntos: z.array(z.object({ texto: z.string() })).max(5),
   }),
-  z.object({ tipo: z.literal("cierre"), stack: z.string() }),
+  z.object({ tipo: z.literal("cierre") }),
 ]);
 
 export const proyectoSchema = z.object({
@@ -132,6 +149,8 @@ function palabrasDe(slide: SlideBase): number {
   if ("valor" in slide && slide.valor) trozos.push(slide.valor);
   if ("nota" in slide && slide.nota) trozos.push(slide.nota);
   if (slide.tipo === "lista") trozos.push(...slide.puntos.map((p) => p.texto));
+  if (slide.tipo === "metricas")
+    trozos.push(...slide.cifras.map((c) => `${c.valor} ${c.etiqueta}`));
   return trozos.join(" ").split(/\s+/).filter(Boolean).length;
 }
 
