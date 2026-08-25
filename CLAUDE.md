@@ -111,11 +111,28 @@ o se sirve un build viejo sin estilos y parece un fallo de CSS.
 
 ## Deploy
 
-Vercel: `orkesta-web-2026` (team `orkesta-automation`). Push a `main` → deploy automático.
-URL: https://orkesta-web-2026.vercel.app
+Vercel: el proyecto se llama **`portfolio`** desde el 2026-08-25 (antes `orkesta-web-2026`);
+el id no cambia, `prj_csbeI12neSuSF0VoxpqfAW3T5CZr`, team `orkesta-automation`. Push a `main`
+→ deploy automático. URL: https://orkesta-web-2026.vercel.app
+
+🔴 **Renombrar el proyecto en Vercel tira abajo la URL.** El dominio automático
+`<nombre>.vercel.app` se suelta al renombrar y la web queda en `DEPLOYMENT_NOT_FOUND`.
+`portfolio.vercel.app` no sirve de recambio: es de otra cuenta. Se recupera así, sin tocar
+DNS ni volver a desplegar:
+
+```
+npx vercel domains add orkesta-web-2026.vercel.app portfolio --scope orkesta-automation
+```
+
+**Añadirlo como dominio del proyecto, no con `vercel alias set`.** Un alias suelto queda
+detrás de la protección de despliegue y devuelve un 302 al SSO de Vercel; un dominio de
+producción del proyecto se salta la protección.
 
 ## Pendiente
 
+0. **`portfolio-orkestaia.app`** está dado de alta en el proyecto y **no existe**: no está
+   registrado (NXDOMAIN), así que sale como configuración inválida. O se compra o se quita
+   de Vercel. Decisión de Aitor.
 1. **Decisión de Aitor:** ¿el Lanyard también en móvil? El brief lo limita a escritorio
    ≥1024 px y manda retirarlo si el Lighthouse móvil baja de 95. El modelo pesa 2,4 MB más
    la física en WebAssembly. Plan acordado: activarlo tras el filtro de dispositivo, medir,
